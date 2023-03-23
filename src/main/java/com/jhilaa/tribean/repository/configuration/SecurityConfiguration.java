@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/v3/api-docs/swagger-config").permitAll()
                         //.requestMatchers("/h2-console/**").permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
-                        //.requestMatchers(antMatcher("/h2-console/**")).permitAll() // et pourquoi ça marche avec le antMatcher...
+                        .requestMatchers(antMatcher("/h2-console/**")).permitAll() // et pourquoi ça marche avec le antMatcher...
                         .anyRequest().authenticated()
                 );
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
