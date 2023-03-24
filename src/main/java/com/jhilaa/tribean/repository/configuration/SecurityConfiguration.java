@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -42,10 +43,6 @@ public class SecurityConfiguration {
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/index.html").permitAll()
                 .requestMatchers("/static/**").permitAll()
-                //.requestMatchers("/resources").permitAll()
-                //.requestMatchers("/resources/**").permitAll()
-                //.requestMatchers("/tags/**").permitAll()
-                //.requestMatchers("/tags/**").permitAll()
                 .requestMatchers("/users").permitAll()
                 .requestMatchers("/users/**").permitAll()
                 .requestMatchers("/authenticate").permitAll()
@@ -57,7 +54,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/swagger-ui.html").permitAll()
                 .requestMatchers("/webjars/**").permitAll()
                 .requestMatchers("/v3/api-docs/swagger-config").permitAll()
-                .requestMatchers("/h2-console/**").permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
+                //.requestMatchers("/h2-console/**").permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
+                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
                 .anyRequest().authenticated()
         );
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
