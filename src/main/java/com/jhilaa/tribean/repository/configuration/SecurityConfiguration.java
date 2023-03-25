@@ -27,9 +27,10 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-        .csrf().disable()// on disable pour nos test. Voir la
-        .exceptionHandling()
+        http.csrf().disable();// on disable pour nos test. Voir la
+        http.headers().frameOptions().disable();
+        http.headers().frameOptions().sameOrigin();
+        http.exceptionHandling()
         //.authenticationEntryPoint(restAuthenticationEntryPoint)
         .and()
         .sessionManagement()
@@ -55,7 +56,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/webjars/**").permitAll()
                 .requestMatchers("/v3/api-docs/swagger-config").permitAll()
                 //.requestMatchers("/h2-console/**").permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
-                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
+                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 .anyRequest().authenticated()
         );
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -67,4 +68,5 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
