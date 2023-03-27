@@ -10,3 +10,4 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<UserInfo, Integer> {
 UserInfo findOneByEmail(String email);
 }
+

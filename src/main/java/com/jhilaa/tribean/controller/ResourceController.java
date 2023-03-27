@@ -1,7 +1,6 @@
 package com.jhilaa.tribean.controller;
 
 import com.jhilaa.tribean.model.Resource;
-import com.jhilaa.tribean.model.Review;
 import com.jhilaa.tribean.repository.ResourceRepository;
 import com.jhilaa.tribean.repository.TagRepository;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 
 @RestController
@@ -24,73 +21,50 @@ import java.util.Set;
         ResourceRepository resourceRepository;
         TagRepository tagRepository;
 
+        //get de toutes les ressources
         @GetMapping("/resources")
-        public ResponseEntity<List<Resource>> getAllResources(@RequestParam(required = false) String tagId) {
+        public ResponseEntity<List<Resource>> getAllResources() {
             List<Resource> resources = new ArrayList<Resource>();
-
-            if (tagId == null)
-                resourceRepository.findAll().forEach(resources::add);
-            else {
-                Optional<Resource> resource = resourceRepository.findById(Integer.valueOf(tagId));
-                if (! resource.isEmpty()) {
-                    resources.add(resource.get());
-                }
-            }
-
+            resourceRepository.findAll().forEach(resources::add);
             if (resources.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(resources, HttpStatus.OK);
+                }
+                return new ResponseEntity<>(resources, HttpStatus.OK);
         }
 
-        /*
-        @GetMapping("/resources/{id}")
-        public ResponseEntity<Resource> getResourceById(@PathVariable("id") String id) {
-            Resource resource = resourceRepository.findById(Integer.valueOf(id)).get();
+        //création d'une ressource
+        @PostMapping("/resources")
+        public ResponseEntity<Resource> createResource(@RequestBody Resource resource) {
+            Resource _resource = resourceRepository.save(resource);
+            return new ResponseEntity<>(_resource, HttpStatus.CREATED);
+        }
+
+        //mise à jour d'une resource
+        @PutMapping("/resources/{id}")
+        public ResponseEntity<Resource> updateResource(@PathVariable("id") Integer id, @RequestBody Resource resource) {
+            Resource _resource = resourceRepository.findById(id).get();
                     //.orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + id));
 
-            return new ResponseEntity<>(resource, HttpStatus.OK);
+            _resource.setTitle(resource.getTitle());
+            _resource.setDescription(resource.getDescription());
+            _resource.setImgUrl(resource.getImgUrl());
+
+            return new ResponseEntity<>(resourceRepository.save(_resource), HttpStatus.OK);
         }
 
-         */
+        //suppression d'une ressource
+        @DeleteMapping("/resources/{id}")
+        public ResponseEntity<HttpStatus> deleteResource(@PathVariable("id") Integer id) {
+            resourceRepository.deleteById(id);
 
-    @GetMapping("/resources/{id}/reviews")
-    public ResponseEntity<Set<Review>> getReviewsByresourceId(@PathVariable("id") String id) {
-        Set<Review> reviews = resourceRepository.findReviewsByResourceId(Integer.valueOf(id));
-        return new ResponseEntity<>(reviews, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        // suppression de toutes les ressource
+        @DeleteMapping("/resources")
+        public ResponseEntity<HttpStatus> deleteAllResources() {
+            resourceRepository.deleteAll();
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
-
-    @PostMapping("/resources")
-    public ResponseEntity<Resource> createResource(@RequestBody Resource resource) {
-        Resource _resource = resourceRepository.save(new Resource(resource.getTitle(), resource.getDescription(), resource.getImgUrl(), resource.getVisibility(), resource.getCreationDate(), resource.getModificationDate()));
-        return new ResponseEntity<>(_resource, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/resources/{id}")
-    public ResponseEntity<Resource> updateResource(@PathVariable("id") Integer id, @RequestBody Resource resource) {
-        Resource _resource = resourceRepository.findById(id).get();
-                //.orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + id));
-
-        _resource.setTitle(resource.getTitle());
-        _resource.setDescription(resource.getDescription());
-        _resource.setImgUrl(resource.getImgUrl());
-
-        return new ResponseEntity<>(resourceRepository.save(_resource), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/resources/{id}")
-    public ResponseEntity<HttpStatus> deleteResource(@PathVariable("id") Integer id) {
-        resourceRepository.deleteById(id);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("/resources")
-    public ResponseEntity<HttpStatus> deleteAllResources() {
-        resourceRepository.deleteAll();
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-}

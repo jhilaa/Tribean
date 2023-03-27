@@ -1,4 +1,4 @@
-package com.jhilaa.tribean.model.param;
+package com.jhilaa.tribean.model.enumeration;
 
 public enum ResourceStatus {PUBLIC, PRIVATE}
 
