@@ -7,7 +7,7 @@ insert into tag (tag_name, color) values ('node', 'green');
 insert into user_info(lastname, firstname, email, password ) values ('lastname', 'fisrtname', 'email', 'password');
 insert into user_info(lastname, firstname, email, password ) values ('napoléon', 'bonaparte', 'np@Sthelene.com', 'josephine');
 --
-insert into resource(title, description, img_url) values ('sql', 'datawarehosue', 'datamart.png');
-insert into resource(title, description, img_url) values ('hibernate', 'with Spring', 'datamart.png');
+--insert into resource(title, description, img_url) values ('sql', 'datawarehosue', 'datamart.png');
+--insert into resource(title, description, img_url) values ('hibernate', 'with Spring', 'datamart.png');
 
 
