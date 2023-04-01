@@ -18,69 +18,99 @@ import java.util.Set;
 @RestController
 @SecurityRequirement(name = "bearerAuth")
 public class TagController {
-        @Autowired
-        private ResourceRepository resourceRepository;
-        @Autowired
-        private TagRepository tagRepository;
+    @Autowired
+    private ResourceRepository resourceRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
-        @GetMapping("/tags")
-        public ResponseEntity<String> getAllTags() {
-            /*
-            List<Tag> tags = new ArrayList<Tag>();
-            tagRepository.findAll().forEach(tags::add);
+    @GetMapping("/tags")
+    public ResponseEntity<List<Tag>> getAllTags() {
+        List<Tag> tags = new ArrayList<Tag>();
+        tagRepository.findAll().forEach(tags::add);
 
-            if (tags.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            */
-           return new ResponseEntity<>("tags", HttpStatus.OK);
+        if (tags.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+       return new ResponseEntity<>(tags, HttpStatus.OK);
+    }
+
+    @GetMapping("/resources/{resourceId}/tags")
+    public ResponseEntity<List<Tag>> getAllTagsByResourceId(@PathVariable(value = "resourceId") Long resourceId) {
+        if (!resourceRepository.existsById(resourceId)) {
+            //throw new ResourceNotFoundException("Not found Resource with id = " + resourceId);
         }
 
-        @GetMapping("/tags/{id}")
-        public ResponseEntity<Tag> getTagsById(@PathVariable(value = "id") Integer id) {
-            Tag tag = tagRepository.findById(id).get();
-                    //TODO gestion des exceptions
-                    //.orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + id));
-            return new ResponseEntity<>(tag, HttpStatus.OK);
-        }
+        List<Tag> tags = tagRepository.findTagsByResourcesId(resourceId);
+        return new ResponseEntity<>(tags, HttpStatus.OK);
+    }
+
+    @GetMapping("/tags/{id}")
+    public ResponseEntity<Tag> getTagsById(@PathVariable(value = "id") Long id) {
+        Tag tag = tagRepository.findById(id).get();
+          ;//.orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + id));
+        return new ResponseEntity<>(tag, HttpStatus.OK);
+    }
 
     //get de toutes les resources par tag id
     @GetMapping("/tags/{tagId}/resources")
-    public ResponseEntity<Set<Resource>> findByTagId(@PathVariable(value = "tagId") Integer tagId) {
-        //TODO gestion des exceptions
-        Set<Resource> resources = new HashSet<Resource>();
+    public ResponseEntity<List<Resource>> getAllResourcesByTagId(@PathVariable(value = "tagId") Long tagId) {
+        if (!tagRepository.existsById(tagId)) {
+            // throw new ResourceNotFoundException("Not found Tag  with id = " + tagId);
+        }
+        List<Resource> resources = resourceRepository.findResourcesByTagsId(tagId);
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
-    @PutMapping("/tags/")
-    public ResponseEntity<Tag> updateTag(@PathVariable("id") Integer id, @RequestBody Tag tagRequest) {
-        Tag tag = tagRepository.findById(id).get();
-        /*TODO gestion des exceptions */
-        /*        .orElseThrow(() -> new ResourceNotFoundException("TagId " + id + "not found"));*/
-        tag.setTagName(tagRequest.getTagName());
+    @PostMapping("/resources/{resourceId}/tags")
+    public ResponseEntity<Tag> addTag(@PathVariable(value = "resourceId") Long resourceId, @RequestBody Tag tagRequest) {
+        Tag tag = resourceRepository.findById(resourceId).map(resource -> {
+            long tagId = tagRequest.getId();
+
+            // tag is existed
+            if (tagId != 0L) {
+                Tag _tag = tagRepository.findById(tagId).get();
+                  //.orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + tagId));
+                resource.addTag(_tag);
+                resourceRepository.save(resource);
+                return _tag;
+            }
+
+            // add and create new Tag
+            resource.addTag(tagRequest);
+            return tagRepository.save(tagRequest);
+        }).get(); //.orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + resourceId));
+
+        return new ResponseEntity<>(tag, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/tags/{id}")
+    public ResponseEntity<Tag> updateTag(@PathVariable("id") long id, @RequestBody Tag tagRequest) {
+        Tag tag = tagRepository.findById(id).get()
+          ; //.orElseThrow(() -> new ResourceNotFoundException("TagId " + id + "not found"));
+
+        tag.setName(tagRequest.getName());
+        tag.setColor(tagRequest.getColor());
 
         return new ResponseEntity<>(tagRepository.save(tag), HttpStatus.OK);
     }
 
-    /*
-        @DeleteMapping("/tags/resource/")
-        public ResponseEntity<HttpStatus> deleteTagFromResource(@PathVariable(value = "resourceId") Integer resourceId, @PathVariable(value = "tag") Tag tag) {
-            Resource resource = resourceRepository.findById(resourceId).get();
-                    //TODO gestion des exceptions
-                    // .orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + resourceId));
+    @DeleteMapping("/resources/{resourceId}/tags/{tagId}")
+    public ResponseEntity<HttpStatus> deleteTagFromResource(@PathVariable(value = "resourceId") Long resourceId, @PathVariable(value = "tagId") Long tagId) {
+        Resource resource = resourceRepository.findById(resourceId).get()
+         ;// .orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + resourceId));
 
-            resource.removeTag(tag);
-            resourceRepository.save(resource);
+        resource.removeTag(tagId);
+        resourceRepository.save(resource);
 
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        @DeleteMapping("/tags/{id}")
-        public ResponseEntity<HttpStatus> deleteTag(@PathVariable("id") Integer id) {
-            tagRepository.deleteById(id);
-
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        */
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/tags/{id}")
+    public ResponseEntity<HttpStatus> deleteTag(@PathVariable("id") long id) {
+        tagRepository.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+}
+
 

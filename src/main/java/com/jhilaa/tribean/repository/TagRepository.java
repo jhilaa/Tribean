@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface TagRepository extends CrudRepository<Tag, Integer> {
+public interface TagRepository extends CrudRepository<Tag, Long> {
     //TODO les méthodes qui complètent : findAll, ...
-
-    List<Tag> findAllByResourcesContaining(Resource resource);
+    List<Tag> findTagsByResourcesId(Long ResourceId);
 
 }

@@ -28,7 +28,7 @@ public class UserController {
     JwtController jwtController;
     @GetMapping("/users/{userId}")
     public ResponseEntity getUser(@PathVariable("userId") String userId) {
-        return new ResponseEntity(userRepository.findById(Integer.valueOf(userId)), HttpStatus.OK);
+        return new ResponseEntity(userRepository.findById(Long.valueOf(userId)), HttpStatus.OK);
     }
 
     @PostMapping("/users")

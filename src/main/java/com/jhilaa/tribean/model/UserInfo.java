@@ -18,7 +18,7 @@ import java.util.HashSet;
 public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer userInfoId;
+    Long userInfoId;
     @NotBlank
     @Size(min=2, max=25, message="Le prénom doit faire entre 2 et 25 caractères")
     String lastname;
@@ -29,8 +29,4 @@ public class UserInfo {
     String email;
     @NotBlank
     String password;
-    //@OneToMany(mappedBy = "resource")
-    //private Set<Review> review = new HashSet<>();
-
-
 }

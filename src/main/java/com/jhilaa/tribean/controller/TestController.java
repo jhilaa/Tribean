@@ -28,11 +28,11 @@ public class TestController {
         resource.setDescription("description");
 
         Tag tag = new Tag();
-        tag.setTagName("name");
+        tag.setName("name");
         tag.setColor("color");
 
         Tag tag2 = new Tag();
-        tag2.setTagName("name2");
+        tag2.setName("name2");
         tag2.setColor("color2");
 
 
