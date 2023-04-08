@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashSet;
+import java.util.Set;
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -26,7 +26,13 @@ public class UserInfo {
     @Size(min=2, max=25, message="Le nom doit faire entre 2 et 25 caractères")
     String firstname;
     @NotBlank
+    @Column(unique = true)
     String email;
     @NotBlank
     String password;
+    //@TODO nécessaire?
+    /*
+    @OneToMany(mappedBy = "review")
+    Set<Review> reviews;
+     */
 }

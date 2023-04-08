@@ -28,8 +28,8 @@ public class SecurityConfiguration {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();// on disable pour nos test. Voir la
-        http.headers().frameOptions().disable();
-        http.headers().frameOptions().sameOrigin();
+        //http.headers().frameOptions().disable();
+        //http.headers().frameOptions().sameOrigin();
         http.exceptionHandling()
         //.authenticationEntryPoint(restAuthenticationEntryPoint)
         .and()
@@ -40,16 +40,15 @@ public class SecurityConfiguration {
         .and()
         // url autorisées
         .authorizeHttpRequests(auth -> auth
-                //.antMatchers("/").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/index.html").permitAll()
                 .requestMatchers("/static/**").permitAll()
-                .requestMatchers("/users").permitAll()
-                .requestMatchers("/users/**").permitAll()
-                .requestMatchers("/tags").permitAll()
-                .requestMatchers("/tags/**").permitAll()
-                .requestMatchers("/resources").permitAll()
-                .requestMatchers("/resources/**").permitAll()
+                .requestMatchers("/user").permitAll()
+                .requestMatchers("/user/**").permitAll()
+                //.requestMatchers("/tag").permitAll()
+                //.requestMatchers("/tag/**").permitAll()
+                //.requestMatchers("/resource").permitAll()
+                //.requestMatchers("/resource/**").permitAll()
                 .requestMatchers("/test/**").permitAll()
                 .requestMatchers("/authenticate").permitAll()
                 .requestMatchers("/isConnected").permitAll()
@@ -60,7 +59,6 @@ public class SecurityConfiguration {
                 .requestMatchers("/swagger-ui.html").permitAll()
                 .requestMatchers("/webjars/**").permitAll()
                 .requestMatchers("/v3/api-docs/swagger-config").permitAll()
-                //.requestMatchers("/h2-console/**").permitAll() // je ne sais pas pourquoi ça ne fonctionne pas avec cette ligne
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                 .anyRequest().authenticated()
         );
@@ -71,6 +69,7 @@ public class SecurityConfiguration {
     @Bean
     // utilisateur avec mdp crypté et stocké en base
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 

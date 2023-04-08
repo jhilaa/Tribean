@@ -4,9 +4,9 @@ import com.jhilaa.tribean.jwt.JwtController;
 import com.jhilaa.tribean.jwt.JwtFilter;
 import com.jhilaa.tribean.jwt.JwtUtils;
 import com.jhilaa.tribean.model.UserInfo;
-import com.jhilaa.tribean.repository.UserRepository;
+import com.jhilaa.tribean.repository.UserInfoRepository;
+import com.jhilaa.tribean.service.UserInfoService;
 import jakarta.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,25 +16,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.apache.commons.lang3.StringUtils;
 @RestController
 public class UserController {
     @Autowired
-    UserRepository userRepository;
-
+    UserInfoRepository userInfoRepository;
     @Autowired
     JwtUtils jwtUtils;
-
     @Autowired
     JwtController jwtController;
-    @GetMapping("/users/{userId}")
-    public ResponseEntity getUser(@PathVariable("userId") String userId) {
-        return new ResponseEntity(userRepository.findById(Long.valueOf(userId)), HttpStatus.OK);
+
+    @GetMapping("/user/all")
+    public ResponseEntity getAllUsers() {
+        return new ResponseEntity(userInfoRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("/users")
-    public ResponseEntity add(@Valid @RequestBody UserInfo userInfo) {
+    @GetMapping("/user/details/{userId}")
+    public ResponseEntity getUser(@PathVariable("userId") String userId) {
+        return new ResponseEntity(userInfoRepository.findById(Long.valueOf(userId)), HttpStatus.OK);
+    }
 
-        UserInfo existingUser = userRepository.findOneByEmail(userInfo.getEmail());
+    @PostMapping("/user/create")
+    public ResponseEntity addUser(@Valid @RequestBody UserInfo userInfo) {
+        UserInfo existingUser = userInfoRepository.findOneByEmail(userInfo.getEmail());
         if(existingUser != null) {
             return new ResponseEntity("User already existing", HttpStatus.BAD_REQUEST);
         }
@@ -61,7 +65,8 @@ public class UserController {
         user.setPassword(new BCryptPasswordEncoder().encode(userInfo.getPassword()));
         user.setLastname(StringUtils.capitalize(userInfo.getLastname()));
         user.setFirstname(StringUtils.capitalize(userInfo.getFirstname()));
-        userRepository.save(user);
+        userInfoRepository.save(user);
         return user;
     }
+
 }

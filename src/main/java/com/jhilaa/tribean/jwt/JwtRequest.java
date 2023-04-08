@@ -1,6 +1,6 @@
 package com.jhilaa.tribean.jwt;
 
-public class JwtRequest {
+public class  JwtRequest {
 
     private String email;
     private String password;

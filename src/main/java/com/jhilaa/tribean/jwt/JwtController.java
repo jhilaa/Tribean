@@ -16,14 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class JwtController {
-
-
     @Autowired
     JwtUtils jwtUtils;
-
     @Autowired
     MyUserDetailService service;
-
     @Autowired
     AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -38,6 +34,7 @@ public class JwtController {
     }
 
     public Authentication logUser(String mail, String password) {
+        //exception
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(new UsernamePasswordAuthenticationToken(mail, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authentication;

@@ -1,10 +1,11 @@
 package com.jhilaa.tribean.repository.configuration;
 
 import com.jhilaa.tribean.model.UserInfo;
-import com.jhilaa.tribean.repository.UserRepository;
+import com.jhilaa.tribean.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,15 +18,15 @@ import java.util.List;
 public class MyUserDetailService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    UserInfoRepository userInfoRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         // récupérer de la base le user correspondant au login
-        UserInfo user = userRepository.findOneByEmail(login);
+        UserInfo user = userInfoRepository.findOneByEmail(login);
 
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return new User(user.getEmail(), user.getPassword(), authorities);
     }
 }

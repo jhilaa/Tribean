@@ -1,13 +1,15 @@
 package com.jhilaa.tribean.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.jhilaa.tribean.model.enumeration.Visibility;
+import com.jhilaa.tribean.service.ResourceService;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,33 +32,26 @@ public class Resource {
     String title;
     @Column(name = "description")
     String description;
-    @ManyToMany(
-      fetch = FetchType.LAZY,
+    //
+    @ManyToMany(fetch = FetchType.LAZY,
       cascade = {
         CascadeType.PERSIST,
-        CascadeType.MERGE})
-    @JoinTable(name="tutorials_tags_relation",
-      joinColumns = {@JoinColumn(name="resource_id")},
-      inverseJoinColumns = {@JoinColumn(name="tag_id")})
+        CascadeType.MERGE
+      }
+      //, mappedBy = "resources")
+    )
+    @JsonIgnore
     Set<Tag> tags = new HashSet<>();
 
-    public Resource (String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
-    public void removeTag(long tagId) {
-        Tag tag = this.tags.stream().filter(tg -> tg.getId() == tagId).findFirst().orElse(null);
-        if (tag != null) {
-            this.tags.remove(tag);
-            tag.getResources().remove(this);
-        }
-    }
-
-    public void addTag(Tag tag) {
-        this.tags.add(tag);
-        tag.getResources().add(this);
-    }
+    //
+    /*
+    @OneToMany(
+      //mappedBy = "resource",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true
+    )
+    List<Review> reviews = new ArrayList<>();
+     */
 }
 
 
