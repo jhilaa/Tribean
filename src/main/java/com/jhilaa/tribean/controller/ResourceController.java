@@ -25,7 +25,7 @@ import java.util.OptionalInt;
 
     @PostMapping("/resource/create")
     public ResponseEntity<Object> createResource(@RequestBody Resource resource) {
-        return  resourceService.addResource(resource);
+        return  resourceService.createResource(resource);
     }
     @DeleteMapping("/resource/delete/{id}")
     public ResponseEntity<Object> deleteResource(@PathVariable Long id) {

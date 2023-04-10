@@ -16,7 +16,7 @@ public interface ResourceRepository extends CrudRepository<Resource, Long> {
 
     List<Resource> findByTitleContaining (String title);
 
-    Optional<Resource> findByTitle(String title);
+    Optional<Resource> findResourceByTitle(String title);
 }
 
 

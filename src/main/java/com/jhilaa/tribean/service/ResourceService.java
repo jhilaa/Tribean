@@ -20,16 +20,25 @@ public class ResourceService {
     @Autowired
     TagRepository tagRepository;
 
-    /* aot
-    public ResourceService(ResourceRepository resourceRepository, TagRepository tagRepository) {
-        this.resourceRepository = resourceRepository;
-        this.tagRepository = tagRepository;
+    /** Create a new Resource */
+    public ResponseEntity<Object> createResource(Resource newResource) {
+        Resource resource = new Resource();
+        if (!resourceRepository.findResourceByTitle(newResource.getTitle()).isEmpty()) {
+            return ResponseEntity.badRequest().body("The resource is already Present, Failed to Create new resource");
+        } else {
+            resource.setTitle(newResource.getTitle());
+            resource.setDescription(newResource.getDescription());
+
+            Resource savedResource = resourceRepository.save(resource);
+            if (resourceRepository.findById(savedResource.getId()).isPresent())
+                return ResponseEntity.ok("Resource created Successfully");
+            else return ResponseEntity.unprocessableEntity().body("Failed Creating resource as Specified");
+        }
     }
-    */
 
     /** Create a new resource  */
     @Transactional
-    public ResponseEntity<Object> addResource(Resource resource)  {
+    public ResponseEntity<Object> updateResource(Resource resource)  {
         Resource newResource = new Resource();
         newResource.setTitle(resource.getTitle());
         newResource.setDescription(resource.getDescription());
