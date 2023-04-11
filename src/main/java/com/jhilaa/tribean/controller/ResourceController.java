@@ -27,6 +27,7 @@ import java.util.OptionalInt;
     public ResponseEntity<Object> createResource(@RequestBody Resource resource) {
         return  resourceService.createResource(resource);
     }
+
     @DeleteMapping("/resource/delete/{id}")
     public ResponseEntity<Object> deleteResource(@PathVariable Long id) {
         return resourceService.deleteResource(id);

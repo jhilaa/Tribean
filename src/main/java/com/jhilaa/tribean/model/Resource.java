@@ -38,9 +38,8 @@ public class Resource {
         CascadeType.PERSIST,
         CascadeType.MERGE
       }
-      //, mappedBy = "resources")
-    )
-    @JsonIgnore
+      , mappedBy = "resources")
+    //@JsonIgnore
     Set<Tag> tags = new HashSet<>();
 
     //
@@ -52,6 +51,10 @@ public class Resource {
     )
     List<Review> reviews = new ArrayList<>();
      */
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = new HashSet<>(tags);
+    }
 }
 
 
