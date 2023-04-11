@@ -1,15 +1,11 @@
 import logo from './logo.svg';
-import './App.css';
-import {Resources} from './Resources';
-
-
-
+import {ListResources} from './ListResources';
 
 function App() {
   return (
       <div className="App">
         <h1>Mes Resources</h1>
-        <Resources />
+        <ListResources />
         <button>Ajouter</button>
       </div>
   );
