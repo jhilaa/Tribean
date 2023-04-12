@@ -1,12 +1,23 @@
 import logo from './logo.svg';
+import {Routes, Route} from 'react-router';
 import {ListResources} from './ListResources';
+import {MyResources} from './MyResources';
+import {AddResource} from './AddResource';
+import {AddUser} from './AddUser';
+import {Login} from './Login';
 
 function App() {
   return (
       <div className="App">
-        <h1>Mes Resources</h1>
-        <ListResources />
-        <button>Ajouter</button>
+          <Routes>
+              <Route path="listResources" element={<ListResources />} />
+              <Route path="myResources" element={<MyResources />} />
+              <Route path="addResource" element={<AddResource />} />
+              <Route path="addResource/:bookId" element={<AddResource />} />
+              <Route path="myResources" element={<MyResources />} />
+              <Route path="login" element={<Login />} />
+              <Route path="addUser" element={<AddUser />} />
+          </Routes>
       </div>
   );
 }

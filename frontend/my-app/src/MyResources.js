@@ -1,26 +1,24 @@
 import React from 'react';
-import {Resource} from "./Resource";
+import {Resource} from './Resource';
 
-export class ListResources extends React.Component {
-	// init du state obligatoire
-	constructor() {
+export class MyResources extends React.Component {
+    // init du state
+    constructor() {
         super();
-		this.state = {
-			resources : []
-		}
-	}
-
-    books = [];
+        this.state = {
+            resources : []
+        }
+    }
 
     // mise à jour du states
     componentDidMount() {
         //TODO charger les ressources
-		this.setState({
-			resources : [
-            {id:1, title:"php"},
-            {id:2, title:"regex"}
-			]
-		});
+        this.setState({
+            resources : [
+                {id:1, title:"php"},
+                {id:2, title:"regex"}
+            ]
+        });
     }
 
     render() {

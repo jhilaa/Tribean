@@ -1,6 +1,5 @@
 import React from 'react';
 
-// props en attribut implicite
 export class Resource extends React.Component {
 
     constructor() {
