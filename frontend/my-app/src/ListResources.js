@@ -23,13 +23,30 @@ export class ListResources extends React.Component {
 		});
     }
 
+    renderTagButtons() {
+        if (this.state.resources.length == 0)
+            return "Aucune ressource"
+        else
+            return this.state.resources.map(item => {
+                return <Resource title={item.title} />})
+    }
+
     render() {
-        if (this.state.resources.length == 0) {
-            return "Aucune ressource enregistrée"
+        return <>
+            { this.renderTagButtons() }
+            <button>Nouvelle ressource</button>
+        </>
+
+        {/**{
+            return (<>
+                    "Aucune ressource enregistrée"
+                    </>)
         }
         else {
-            return this.state.resources.map(item => {
-                return <Resource title={item.title} />});
+            return (<> { this.state.resources.map(item => {
+                        return <Resource title={item.title} />})}
+                    </>);
         }
+     */}
     }
 }

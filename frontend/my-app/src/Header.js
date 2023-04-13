@@ -13,9 +13,6 @@ export function Header() {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/MyResources">Mes ressources</Link>
-                    </li>
-                    <li className="nav-item">
                         <Link className="nav-link" to="/ListResources">Ressources disponibles</Link>
                     </li>
                 </ul>
