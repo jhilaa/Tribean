@@ -15,6 +15,9 @@ export function Header() {
                     <li className="nav-item">
                         <Link className="nav-link" to="/ListResources">Ressources disponibles</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/AddResources">Nouvelle ressource</Link>
+                    </li>
                 </ul>
                 <div>Bienvenue, ...</div>
                 <button variant="secondary">Se déconnecter</button>
