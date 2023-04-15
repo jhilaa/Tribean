@@ -1,22 +1,21 @@
 import React from 'react';
-import  {useState} from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios';
 import {useParams} from "react-router-dom"
 import "./AddResource.scss"
 
 
 export function AddResource() {
-    const [resourceData, setResourceData] = useState({name: "", tagId: 1});
-
     let {resourceId} = useParams();
-    if (resourceId) {
-        return "updateResource";
-    }
+    const [resourceData, setResourceData] = useState({name: "", tagId: 1});
+    const [tagsData, setTagsData] = useState([]);
 
-    const  tag= [
-        {id:1, label:"regex"},
-        {id:2, label:"php"},
-        {id:3, label:"sql"},
-    ]
+
+    React.useEffect(() => {
+        axios.get("/tags").then(response => {
+            setTagsData(response.data)
+        })
+    }, [])
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -33,21 +32,21 @@ export function AddResource() {
 
     return (
     <div className="container-add-resource">
-    <h1> Ajouter une resource </h1>
+    <h1> Ajouter une ressource </h1>
     <form onSubmit={onSubmit}>
         <div>
             <label> Intitulé de la resource</label>
             <input name="name" type="test" onChange={handleChange} className="form-control"></input>
             <label> Tags</label>
             <div>
-            <select name="tagId" className="form-control" onChange={handleChange}>
-                {tag.map(category => (
-                    <option value={category.id} key={category.id}>{category.label}</option>
-                )) }
-            </select>
+                <select name="tagId" onChange={handleChange} className="form-control">
+                    {tagsData.map(tag => (
+                        <option key={tag.id} value={tag.id}>{tag.label}</option>
+                    ))}
+                </select>
             </div>
             <div className="container-submit">
-                <input type="submit" value="Valider" className="btn btn-primary"></input>
+                <input type="submit" value='Valider' className="btn btn-primary"></input>
             </div>
 
         </div>

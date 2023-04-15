@@ -3,7 +3,44 @@ import {Resource} from './Resource';
 import {Link} from "react-router-dom";
 import "./ListResources.scss";
 
-export class ListResources extends React.Component {
+/*** version à base de fonction ************************/
+export function ListResources () {
+    const [listResources, setListResources] = React.useState([])
+
+    React.useEffect(() => {
+        // TODO charger les ressources
+        setListResources(
+            [
+                {
+                    title: "asterix",
+                    category: "BD",
+                },
+
+                {
+                    title: "tintin",
+                    category: "BD",
+                }
+            ]
+        )
+    }, []);
+
+    return (
+        <div className="container">
+            <h1>Mes livres</h1>
+            <div className="list-container">
+                {listResources.length === 0 ? "Aucune ressource disponible" : null}
+                {listResources.map((resource) => (<div className="myresource-container" key={resource.title}>
+                    <Resource title={resource.title} category={resource.category}></Resource>
+                </div>))}
+            </div>
+            <Link to="/addResource">
+                <button className="btn btn-primary btn-sm">Nouveau livre</button>
+            </Link>
+        </div>)
+}
+
+/*** version à base de classe ************************
+ export class ListResources extends React.Component {
     // init du state
     constructor() {
         super();
@@ -34,9 +71,8 @@ export class ListResources extends React.Component {
                             {  <Resource id={resource.id} title={resource.title}></Resource>}
                         </div>)}
                 </div>
-                <Link to="/addBook">
+                <Link to="/addResource">
                     <button>Nouvelle resource</button>
                 </Link>
             </div>)
-    }
-}
+    } ***************************/

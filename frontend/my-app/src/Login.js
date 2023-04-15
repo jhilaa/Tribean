@@ -13,16 +13,16 @@ export class Login extends React.Component {
         this.handleChange = this.handleChange = this.handleChange.bind(this)
     }
 
-    onSubmit(event) {
+    onSubmit = (event) => {
         event.preventDefault();
         console.log("onsubmit")
         console.log(this.state.userData)
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         let currentState = {...this.state.userData};
         currentState[event.target.name] = event.target.value;
-        this.setState({ userData: {...currentState} })
+        this.setState({ userData: {currentState} })
     }
 
     render() {
