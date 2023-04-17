@@ -23,6 +23,7 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         // récupérer de la base le user correspondant au login
+        //UserInfo user = userInfoRepository.findOneByEmail(login);
         UserInfo user = userInfoRepository.findOneByEmail(login);
 
         final List<GrantedAuthority> authorities = new ArrayList<>();

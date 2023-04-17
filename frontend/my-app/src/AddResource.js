@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import axios from 'axios';
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import "./AddResource.scss"
 
 
@@ -9,7 +10,7 @@ export function AddResource() {
     let {resourceId} = useParams();
     const [resourceData, setResourceData] = useState({name: "", tagId: 1});
     const [tagsData, setTagsData] = useState([]);
-
+    const history = useNavigate();
 
     React.useEffect(() => {
         axios.get("/tags").then(response => {
@@ -19,9 +20,20 @@ export function AddResource() {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        console.log("onSubmit")
-        console.log(resourceData)
-        //TODO lien avec le back
+        if (bookId) {
+            axios.put("/books/${bookId}"), {
+                ...bookData  // stocké dans le stateS
+            }
+            .then(() => history("/myResources"))
+        } else {
+            // création
+            axios.post("/resources", {
+                ...bookData  // stocké dans le stateS
+            })
+                .then(() => {
+                    history("/myResources")
+                })
+        }
     }
 
     const handleChange = (event) => {

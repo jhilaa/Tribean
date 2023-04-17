@@ -2,6 +2,8 @@ import React from 'react'
 import { Link } from "react-router-dom";
 
 import './AddUser.scss'
+import axios from "axios";
+import { AUTH_TOKEN_KEY } from "./App";
 
 export class AddUser extends React.Component {
 
@@ -17,9 +19,15 @@ export class AddUser extends React.Component {
     }
 
     onSubmit = (event) => {
-        event.preventDefault();
-        console.log("onSubmit")
-        console.log(this.state.userData)
+        axios.post('/users', {
+            ...this.state.userData
+        }).then(response => {
+            const bearerToken = response?.headers?.authorization;
+            if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
+                const jwt = bearerToken.slice(7, bearerToken.length);
+                sessionStorage.setItem(AUTH_TOKEN_KEY,jwt)
+            }
+        })
     }
 
     render() {
