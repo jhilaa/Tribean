@@ -38,7 +38,8 @@ public class Resource {
         CascadeType.PERSIST,
         CascadeType.MERGE
       }
-      , mappedBy = "resources")
+    )
+    //TODO à virer?, mappedBy = "resources")
     //@JsonIgnore
     Set<Tag> tags = new HashSet<>();
 
