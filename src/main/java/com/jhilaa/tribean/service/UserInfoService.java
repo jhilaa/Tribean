@@ -39,5 +39,5 @@ public class UserInfoService {
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         //
         return new ResponseEntity<>(newUserInfo, httpHeaders, HttpStatus.OK);
-        }
     }
+}
