@@ -26,33 +26,47 @@ public class TagController {
     @Autowired
     TagService tagService;
 
-    @PostMapping("/tag/create")
+
+
+    //-- CREATE
+    @PostMapping("/tags/create")
     public ResponseEntity<Object> createTag(@RequestBody Tag tag) {
-        //TODO vérif existence tag
         return tagService.createTag(tag);
     }
 
-    @GetMapping("/tag/details/{id}")
-    public Tag getTag(@PathVariable Long id) {
-        if(tagRepository.findById(id).isPresent())
-            return tagRepository.findById(id).get();
-        else return  null;
-    }
-    @GetMapping("/tag/all")
+    //-- SELECT
+    @GetMapping("/tags/all")
     public List<Tag> getTags() {
+        return tagService.findAll();
+        /*
         List<Tag> tags = new ArrayList<Tag>();
         tagRepository.findAll().forEach(tags::add);
         return tags;
-    }
-    @PutMapping("/tag/update/{id}")
-    public ResponseEntity<Object> updateTag(@PathVariable Long id, @RequestBody Tag tag) {
-        return tagService.updateTag(tag, id);
+         */
     }
 
-    @DeleteMapping("tag/delete/{id}")
+    @GetMapping("/tags/{tagId}")
+    public Tag getTag(@PathVariable Long tagId) {
+        if (tagRepository.findById(tagId).isPresent())
+            return tagRepository.findById(tagId).get();
+        else return null;
+    }
+
+    //-- UPDATE
+    @PutMapping("/tags/{tagId}/update")
+    public ResponseEntity<Object> updateTag(@PathVariable Long tagId, @RequestBody Tag tag) {
+        return tagService.updateTag(tagId,tag);
+    }
+
+    //-- DELETE
+    @DeleteMapping("tags/delete/{id}")
     public ResponseEntity<Object> deleteTag(@PathVariable Long id) {
         return tagService.deleteTag(id);
+        //TODO delete du tag dans les ressources
     }
+
+
+
 }
 
 

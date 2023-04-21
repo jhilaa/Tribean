@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @FieldDefaults(level= AccessLevel.PRIVATE)
 @NoArgsConstructor
@@ -17,9 +18,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name="tag")
-@JsonIdentityInfo(
-  generator = ObjectIdGenerators.PropertyGenerator.class,
-  property = "id")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +28,32 @@ public class Tag {
     String color;
     //
     @ManyToMany(fetch = FetchType.LAZY,
-      cascade = {
-        CascadeType.PERSIST,
-        CascadeType.MERGE
-      },
+      cascade = { CascadeType.PERSIST,
+                CascadeType.MERGE},
       mappedBy = "tags")
-      @JsonIgnore
-      Set<Resource> resources = new HashSet<>();
+    Set<Resource> resources = new HashSet<>();
+
+    public void addResource(Resource resource) {
+        resources.add(resource);
+        resource.getTags().add(this);
+    }
+
+    public void removeResource(long resourceId) {
+        Resource resource = this.resources.stream().filter(t -> t.getId() == resourceId).findFirst().orElse(null);
+        if (resource != null) {
+            this.resources.remove(resource);
+            resource.getTags().remove(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+          "id=" + id +
+          ", name='" + name + '\'' +
+          ", resource='" + resources.stream().map(Resource::getTitle).collect(Collectors.toList()) + '\'' +
+          '}';
+    }
 }
 
 

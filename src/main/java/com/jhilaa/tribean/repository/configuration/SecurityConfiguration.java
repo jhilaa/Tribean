@@ -19,8 +19,8 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 public class SecurityConfiguration {
 
-    // @Autowired
-    // RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+     @Autowired
+     RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Autowired
     JwtFilter jwtFilter;
@@ -29,9 +29,12 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();// on disable pour nos test. Voir la
         //http.headers().frameOptions().disable();
+        http.headers().frameOptions().disable();
         //http.headers().frameOptions().sameOrigin();
+        http.headers().frameOptions().sameOrigin();
         http.exceptionHandling()
         //.authenticationEntryPoint(restAuthenticationEntryPoint)
+        .authenticationEntryPoint(restAuthenticationEntryPoint)
         .and()
         .sessionManagement()
         // stateless = gestion des sessions c$oté client
@@ -40,6 +43,8 @@ public class SecurityConfiguration {
         .and()
         // url autorisées
         .authorizeHttpRequests(auth -> auth
+          //@TODO test
+          .requestMatchers("**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/index.html").permitAll()
                 .requestMatchers("/static/**").permitAll()

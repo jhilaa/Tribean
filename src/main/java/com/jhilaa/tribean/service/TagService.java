@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TagService {
 
@@ -16,8 +19,16 @@ public class TagService {
     private TagRepository tagRepository;
     @Autowired
     private ResourceRepository resourceRepository;
-    
-    /** Create a new Tag */
+
+    public List<Tag> findAll () {
+        List<Tag> tags = new ArrayList<Tag>();
+        tagRepository.findAll().forEach(tags::add);
+        return tags;
+    }
+
+    /**
+     * Create a new Tag
+     */
     public ResponseEntity<Object> createTag(Tag newTag) {
         Tag tag = new Tag();
         if (tagRepository.findTagByName(newTag.getName()) != null) {
@@ -34,27 +45,35 @@ public class TagService {
         }
     }
 
-    /** Update an Existing Tag */
+    /**
+     * Update an Existing Tag
+     */
     @Transactional
-    public ResponseEntity<Object> updateTag(Tag tag, Long id) {
-        if(tagRepository.findById(id).isPresent()) {
+    public ResponseEntity<Object> updateTag(Long id, Tag tag) {
+        if (tagRepository.findById(id).isPresent()) {
             Tag newTag = tagRepository.findById(id).get();
             newTag.setColor(tag.getColor());
             newTag.setName(tag.getName());
-            newTag.setResources(tag.getResources());
             Tag savedTag = tagRepository.save(newTag);
-            if(tagRepository.findById(savedTag.getId()).isPresent())
-                return  ResponseEntity.accepted().body("Tag updated successfully");
+            if (tagRepository.findById(savedTag.getId()).isPresent())
+                return ResponseEntity.accepted().body("Tag updated successfully");
             else return ResponseEntity.unprocessableEntity().body("Failed updating the tag specified");
         } else return ResponseEntity.unprocessableEntity().body("Cannot find the tag specified");
     }
-    /** Delete an Tag*/
+
+    /**
+     * Delete a Tag
+     */
     public ResponseEntity<Object> deleteTag(Long id) {
         if (tagRepository.findById(id).isPresent()) {
-            tagRepository.deleteById(id);
-            if (tagRepository.findById(id).isPresent())
-                return ResponseEntity.unprocessableEntity().body("Failed to Delete the specified Tag");
-            else return ResponseEntity.ok().body("Successfully deleted the specified tag");
-        } else return ResponseEntity.badRequest().body("Cannot find the tag specified");
+            if (tagRepository.findById(id).get().getResources().size() == 0) {
+                tagRepository.deleteById(id);
+                if (tagRepository.findById(id).isPresent()) {
+                    return ResponseEntity.unprocessableEntity().body("Failed to Delete the specified Tag");
+            } else return ResponseEntity.ok().body("Successfully deleted the specified tag");
+            } else return ResponseEntity.ok().body("Failed to delete,  Please delete the tags associated with this resource");
+        } else
+            return ResponseEntity.badRequest().body("No Records Found");
     }
 }
+
