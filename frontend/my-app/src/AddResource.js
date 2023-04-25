@@ -8,27 +8,27 @@ import "./AddResource.scss"
 
 export function AddResource() {
     let {resourceId} = useParams();
-    const [resourceData, setResourceData] = useState({name: "", tagId: 1});
+    const [resourceData, setResourceData] = useState({title: "", tagId: 1, description: ""});
     const [tagsData, setTagsData] = useState([]);
     const history = useNavigate();
 
     React.useEffect(() => {
-        axios.get("/tags").then(response => {
+        axios.get("/tags/all").then(response => {
             setTagsData(response.data)
         })
     }, [])
 
     const onSubmit = (event) => {
         event.preventDefault();
-        if (bookId) {
-            axios.put("/books/${bookId}"), {
-                ...bookData  // stocké dans le stateS
-            }
+        if (resourceId) {
+            axios.put("/resource/${resourceId}", {
+                ...resourceData  // stocké dans le stateS
+            })
             .then(() => history("/myResources"))
         } else {
             // création
-            axios.post("/resources", {
-                ...bookData  // stocké dans le stateS
+            axios.post("/resources/add", {
+                ...resourceData  // stocké dans le stateS
             })
                 .then(() => {
                     history("/myResources")
@@ -48,12 +48,14 @@ export function AddResource() {
     <form onSubmit={onSubmit}>
         <div>
             <label> Intitulé de la resource</label>
-            <input name="name" type="test" onChange={handleChange} className="form-control"></input>
+            <input name="title" type="test" onChange={handleChange} className="form-control"></input>
+            <label> Description</label>
+            <input name="description" type="test" onChange={handleChange} className="form-control"></input>
             <label> Tags</label>
             <div>
                 <select name="tagId" onChange={handleChange} className="form-control">
                     {tagsData.map(tag => (
-                        <option key={tag.id} value={tag.id}>{tag.label}</option>
+                        <option key={tag.id} value={tag.id}>{tag.name}</option>
                     ))}
                 </select>
             </div>
