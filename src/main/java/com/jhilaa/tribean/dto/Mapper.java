@@ -1,7 +1,6 @@
 package com.jhilaa.tribean.dto;
 
 import com.jhilaa.tribean.dto.responseDto.ResourceResponseDto;
-import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagIdsListDto;
 import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
 import com.jhilaa.tribean.dto.responseDto.TagResponseDto;
 import com.jhilaa.tribean.model.Resource;
@@ -20,6 +19,8 @@ public class Mapper {
         return resourceResponseDto;
     }
 
+    /*TODO à supprimer*/
+    /*
     public static ResourceResponseWithTagIdsListDto resourceToResourceResponseWithTagIdsListDto (Resource resource) {
         ResourceResponseWithTagIdsListDto resourceResponseWithTagIdsListDto = new ResourceResponseWithTagIdsListDto();
         //
@@ -32,6 +33,7 @@ public class Mapper {
         }
         return resourceResponseWithTagIdsListDto;
     }
+    */
 
     public static ResourceResponseWithTagResponsesListDto resourceToResourceResponseWithTagResponsesListDto (Resource resource) {
         ResourceResponseWithTagResponsesListDto resourceResponseWithTagResponsesListDto

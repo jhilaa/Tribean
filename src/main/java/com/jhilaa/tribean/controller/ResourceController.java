@@ -1,7 +1,6 @@
 package com.jhilaa.tribean.controller;
 
 import com.jhilaa.tribean.dto.Mapper;
-import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagIdsListDto;
 import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
