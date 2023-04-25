@@ -1,6 +1,7 @@
 package com.jhilaa.tribean.controller;
 
 import com.jhilaa.tribean.dto.Mapper;
+import com.jhilaa.tribean.dto.requestDto.ResourceRequestDto;
 import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
@@ -28,8 +29,9 @@ public class ResourceController {
 
     //-- CREATE
     @PostMapping("/resources/add")
-    public ResponseEntity<Object> createResource(@RequestBody Resource resource) {
-        return resourceService.createResource(resource);
+    public ResponseEntity<Object> createResource(@RequestBody ResourceRequestDto resourceRequestDto) {
+        System.out.println("test test");
+        return resourceService.createResource(resourceRequestDto);
     }
 
     //-- SELECT
@@ -55,7 +57,7 @@ public class ResourceController {
 
 
     //-- UPDATE ----------------------
-    @PutMapping("/resource/{resourceId}/edit")
+    @PutMapping("/resources/{resourceId}/edit")
     public ResponseEntity<Object> updateResource(@PathVariable Long resourceId, @RequestBody Resource resource) {
         return resourceService.updateResource(resourceId, resource);
     }

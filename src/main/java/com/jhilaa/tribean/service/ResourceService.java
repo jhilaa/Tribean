@@ -1,5 +1,7 @@
 package com.jhilaa.tribean.service;
 
+import com.jhilaa.tribean.dto.Mapper;
+import com.jhilaa.tribean.dto.requestDto.ResourceRequestDto;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
 import com.jhilaa.tribean.repository.ResourceRepository;
@@ -28,15 +30,12 @@ public class ResourceService {
         return resources;
     }
 
-    public ResponseEntity<Object> createResource(Resource newResource) {
+    public ResponseEntity<Object> createResource(ResourceRequestDto resourceRequestDto) {
         Resource resource = new Resource();
-        if (!resourceRepository.findResourceByTitle(newResource.getTitle()).isEmpty()) {
+        resource = Mapper.resourceRequestDtoToResource(resourceRequestDto);
+        if (!resourceRepository.findResourceByTitle(resource.getTitle()).isEmpty()) {
             return ResponseEntity.badRequest().body("The resource is already Present, Failed to Create new resource");
         } else {
-            resource.setTitle(newResource.getTitle());
-            resource.setDescription(newResource.getDescription());
-            resource.setTags(newResource.getTags());
-
             Resource savedResource = resourceRepository.save(resource);
             if (resourceRepository.findById(savedResource.getId()).isPresent())
                 return ResponseEntity.ok("Resource created Successfully");
