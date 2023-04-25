@@ -31,12 +31,12 @@ public class UserController {
         return new ResponseEntity(userInfoRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/user/details/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity getUser(@PathVariable("userId") String userId) {
         return new ResponseEntity(userInfoRepository.findById(Long.valueOf(userId)), HttpStatus.OK);
     }
 
-    @PostMapping("/user/create")
+    @PostMapping("/user/add")
     public ResponseEntity addUser(@Valid @RequestBody UserInfo userInfo) {
         UserInfo existingUser = userInfoRepository.findOneByEmail(userInfo.getEmail());
         if(existingUser != null) {

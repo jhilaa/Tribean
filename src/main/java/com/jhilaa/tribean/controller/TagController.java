@@ -29,7 +29,7 @@ public class TagController {
 
 
     //-- CREATE
-    @PostMapping("/tags/create")
+    @PostMapping("/tags/add")
     public ResponseEntity<Object> createTag(@RequestBody Tag tag) {
         return tagService.createTag(tag);
     }
@@ -53,7 +53,7 @@ public class TagController {
     }
 
     //-- UPDATE
-    @PutMapping("/tags/{tagId}/update")
+    @PutMapping("/tags/{tagId}/edit")
     public ResponseEntity<Object> updateTag(@PathVariable Long tagId, @RequestBody Tag tag) {
         return tagService.updateTag(tagId,tag);
     }

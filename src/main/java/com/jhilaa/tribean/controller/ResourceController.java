@@ -1,5 +1,8 @@
 package com.jhilaa.tribean.controller;
 
+import com.jhilaa.tribean.dto.Mapper;
+import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagIdsListDto;
+import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
 import com.jhilaa.tribean.repository.ResourceRepository;
@@ -25,7 +28,7 @@ public class ResourceController {
     TagRepository tagRepository;
 
     //-- CREATE
-    @PostMapping("/resources/create")
+    @PostMapping("/resources/add")
     public ResponseEntity<Object> createResource(@RequestBody Resource resource) {
         return resourceService.createResource(resource);
     }
@@ -43,9 +46,17 @@ public class ResourceController {
         else return null;
     }
 
+    @GetMapping("/resources/test/{resourceId}")
+    public ResourceResponseWithTagResponsesListDto getResourceResponseWithTagIdsListDto (@PathVariable Long resourceId) {
+        if (resourceRepository.findById(resourceId).isPresent())
+            //return Mapper.resourceToResourceResponseWithTagIdsListDto(resourceRepository.findById(resourceId).get());
+            return Mapper.resourceToResourceResponseWithTagResponsesListDto(resourceRepository.findById(resourceId).get());
+        else return null;
+    }
+
 
     //-- UPDATE ----------------------
-    @PutMapping("/resource/{resourceId}/update")
+    @PutMapping("/resource/{resourceId}/edit")
     public ResponseEntity<Object> updateResource(@PathVariable Long resourceId, @RequestBody Resource resource) {
         return resourceService.updateResource(resourceId, resource);
     }

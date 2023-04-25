@@ -6,7 +6,8 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
-//pour ke bouton Authorize dans swagger
+
+// pour le bouton Authorize dans swagger
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "My API", version = "v1"))
 @SecurityScheme(
