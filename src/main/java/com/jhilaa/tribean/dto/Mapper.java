@@ -55,6 +55,7 @@ public class Mapper {
 
         Resource resource = new Resource();
         resource.setTitle(resourceRequestDto.getTitle());
+        resource.setDescription(resourceRequestDto.getDescription());
         HashSet<Tag> tags = new HashSet<>();
         tags.add(tagRepository.findById(resourceRequestDto.getTagId()).get());
         resource.setTags(tags);
