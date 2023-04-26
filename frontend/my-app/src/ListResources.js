@@ -2,11 +2,20 @@ import React from 'react';
 import {Resource} from './Resource';
 import {Link} from "react-router-dom";
 import "./ListResources.scss";
+import axios from "axios";
 
 /*** version à base de fonction ************************/
 export function ListResources () {
     const [listResources, setListResources] = React.useState([])
 
+    React.useEffect(() => {
+        axios.get("/resources/all").then(response => {
+            setListResources(response.data)
+        })
+    }, []);
+
+
+/*
     React.useEffect(() => {
         // TODO charger les ressources
         setListResources(
@@ -23,14 +32,15 @@ export function ListResources () {
             ]
         )
     }, []);
+    */
 
     return (
         <div className="container">
-            <h1>Mes livres</h1>
+            <h1>Ressources</h1>
             <div className="list-container">
                 {listResources.length === 0 ? "Aucune ressource disponible" : null}
                 {listResources.map((resource) => (<div className="myresource-container" key={resource.title}>
-                    <Resource title={resource.title} category={resource.category}></Resource>
+                    <Resource title={resource.title} tags={resource.tags}></Resource>
                 </div>))}
             </div>
             <Link to="/addResource">
