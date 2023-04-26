@@ -14,33 +14,13 @@ export function ListResources () {
         })
     }, []);
 
-
-/*
-    React.useEffect(() => {
-        // TODO charger les ressources
-        setListResources(
-            [
-                {
-                    title: "asterix",
-                    category: "BD",
-                },
-
-                {
-                    title: "tintin",
-                    category: "BD",
-                }
-            ]
-        )
-    }, []);
-    */
-
     return (
         <div className="container">
             <h1>Ressources</h1>
             <div className="list-container">
                 {listResources.length === 0 ? "Aucune ressource disponible" : null}
                 {listResources.map((resource) => (<div className="myresource-container" key={resource.title}>
-                    <Resource title={resource.title} tags={resource.tags}></Resource>
+                    <Resource title={resource.title} description={resource.description} tags={resource.tags}></Resource>
                 </div>))}
             </div>
             <Link to="/addResource">
