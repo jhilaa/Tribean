@@ -7,7 +7,7 @@ import axios from "axios";
 /*** version à base de fonction ************************/
 export function ListResources () {
     const [listResources, setListResources] = React.useState([])
-
+    console.log("test");
     React.useEffect(() => {
         axios.get("/resources/all").then(response => {
             setListResources(response.data)

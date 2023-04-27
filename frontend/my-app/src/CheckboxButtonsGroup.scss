@@ -1,0 +1,127 @@
+.custom-form-control {
+  display: flex;
+  flex-wrap: wrap;
+
+  &.horizontal {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &.vertical {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .checkbox-list {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  &.button-style {
+    .checkbox-list {
+      cursor: pointer;
+      margin: 0 10px 10px;
+
+      justify-content: center;
+      align-items: center;
+
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      input:checked + label {
+        background-color: #1079bf;
+        color: #ffffff;
+      }
+
+      input:not(:checked) + label {
+        background-color: #ffffff;
+        color: #1079bf;
+      }
+
+      label {
+        line-height: 14px;
+        border-radius: 20px;
+        border: 1px solid #1079bf;
+        padding: 7px 15px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &.default-style {
+    .checkbox-list {
+      padding: 7px 15px;
+      margin: 0 0 10px;
+
+      input {
+        cursor: pointer;
+        margin: 0;
+        line-height: 14px;
+      }
+
+      label {
+        cursor: pointer;
+        margin-left: 5px;
+        color: #1079bf;
+        line-height: 14px;
+      }
+    }
+  }
+
+  &.tile-style {
+    &.first-last {
+      .checkbox-list {
+        width: 100px;
+        height: 60px;
+        cursor: pointer;
+        border-bottom: 4px solid #1079bf;
+        box-shadow: 0px -2px 5px -2px rgb(0, 0, 0, 0.2);
+
+        &:first-child {
+          box-shadow: -1px -1px 5px -1px rgb(0, 0, 0, 0.2);
+          border-radius: 5px 0px 0 5px;
+        }
+
+        &:last-child {
+          box-shadow: 0px -1px 5px -1px rgb(0, 0, 0, 0.2);
+          border-radius: 0 5px 5px 0;
+        }
+      }
+    }
+
+    &.no-list {
+      .checkbox-list {
+        width: 100px;
+        height: 60px;
+        cursor: pointer;
+        border-bottom: 4px solid #1079bf;
+        box-shadow: 0px -2px 5px -2px rgb(0, 0, 0, 0.2);
+        border-radius: 5px;
+      }
+    }
+
+    .checkbox-list {
+      input[type="checkbox"] {
+        display: none;
+      }
+
+      input:checked + label {
+        color: #1079bf;
+      }
+
+      input:not(:checked) + label {
+        color: #9b9b9b;
+      }
+
+      label {
+        padding: 25px;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+  }
+}
