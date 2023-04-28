@@ -9,52 +9,14 @@ import "./AddResource.scss"
 
 export function AddResource() {
     let {resourceId} = useParams();
-    let init = ([{
-        "id": 2,
-        "name": "js",
-        "color": "red",
-        "resources": []
-    },
-        {
-            "id": 3,
-            "name": "regex",
-            "color": "blue",
-            "resources": []
-        }]);
-    const [resourceData, setResourceData] = useState({title: "", tagId: 1, description: ""});
-    const [tagsData, setTagsData] = useState(init);
+    const [selectedTags, setSelectedTags] = useState();
     const history = useNavigate();
 
-    React.useEffect(() => {
-        console.log("useEffect3");
-        let sample = ([{
-                    "id": 2,
-                    "name": "js",
-                    "color": "red",
-                    "resources": []
-                },
-                {
-                    "id": 3,
-                    "name": "regex",
-                    "color": "blue",
-                    "resources": []
-                }]);
-        console.log("sample");
-        setTagsData(sample);
-        console.log("tagsData");
-        console.log(tagsData);
-    }, []);
-    /*
-    axios.get("/tags/all").then(response => {
-        setTagsData(response.data);
-        console.log("---------------");
-        console.log(response.data);
-        console.log(tagsData);
-    })
-}, [])*/
+    React.useEffect(() => {}, []);
 
     const onSubmit = (event) => {
         event.preventDefault();
+        /*
         if (resourceId) {
             axios.put("/resource/${resourceId}", {
                 ...resourceData  // stocké dans le stateS
@@ -69,12 +31,16 @@ export function AddResource() {
                     history("/myResources")
                 })
         }
+        */
+
     }
 
     const handleChange = (event) => {
+        /*
         let currenState = {...resourceData};
         currenState[event.target.name] = event.target.value;
         setResourceData(currenState)
+         */
     }
 
     return (
@@ -89,6 +55,7 @@ export function AddResource() {
                     <label> Tags</label>
                     <div>
                     <CheckboxButtonsGroup
+                        /*
                         checkboxObj={tagsData}
                         //design: button, tile, default
                         commonStyle={{
@@ -97,14 +64,14 @@ export function AddResource() {
                             width: 350,
                             length: {tagsData}.length,
                             icon: true
-                        }} />
+                        }}
+                        */
+                     setSelectedTags={setSelectedTags}/>
                     </div>
                     <div className="container-submit">
                         <input type="submit" value='Valider' className="btn btn-primary"></input>
                     </div>
-
                 </div>
-
             </form>
         </div>
     )

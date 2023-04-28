@@ -1,22 +1,32 @@
 import React, {useState, useEffect} from "react";
 import "./CheckboxButtonsGroup.scss";
+import axios from "axios";
 
-const CheckBoxButtonsGroup = props => {
+function  CheckBoxButtonsGroup ({setSelectedTags}) {
 
-    const [checkBox, setCheckBox] = useState(props.checkboxObj);
+    const [checkBoxList, setCheckBoxList] = useState();
     const [selectedVal, setSelectedVal] = useState(null);
 
     useEffect(() => {
-    }, []);
+        axios.get("/tags/all").then(response => {
+            setCheckBoxList(response.data);
+    })}, []);
 
     const handleChange = (e, val, index) => {
-        let data = checkBox;
+        let data = checkBoxList;
         data[index].selected = !data[index].selected;
-        setCheckBox([...data]);
-        setSelectedVal(checkBox.filter(tag => tag.selected));
+        setCheckBoxList([...data]);
+        setSelectedVal(checkBoxList.filter(tag => tag.selected));
+        //--------
     };
 
-    const {align, design, width, length} = props.commonStyle;
+    const {align, design, width, length, icon} ={
+        design: "button-style",
+            align: "horizontal",
+            width: 350,
+            length: {checkBoxList}.length,
+            icon: true
+        };
     return (
             <div
                 className={`custom-form-control ${design} ${align} ${
@@ -24,8 +34,8 @@ const CheckBoxButtonsGroup = props => {
                 }`}
                 style={{width: width}}
             >
-                {checkBox &&
-                    checkBox.map((val, i) => {
+                {checkBoxList &&
+                    checkBoxList.map((val, i) => {
                         return (
                             <div key={i} className="checkbox-list">
                                 <input
@@ -41,7 +51,6 @@ const CheckBoxButtonsGroup = props => {
                     })}
                 <br/>
             </div>
-
     );
 };
 
