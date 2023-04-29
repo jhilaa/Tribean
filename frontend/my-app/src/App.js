@@ -4,6 +4,7 @@ import { ListResources } from './ListResources';
 import { AddResource  } from './AddResource';
 import { AddUser } from './AddUser';
 import { Login } from './Login';
+import { Home } from './Home';
 import { Header } from './Header';
 import { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -28,9 +29,9 @@ function App() {
 
   return (
   <div>
-      <Header />
       <div className="App">
           <Routes>
+              <Route path="home" element ={<Home />} />
               <Route path="listResources" element={<ListResources />} />
               <Route path="addResource" element={<AddResource />} />
               <Route path="addResource/:resourceId" element={<AddResource />} />

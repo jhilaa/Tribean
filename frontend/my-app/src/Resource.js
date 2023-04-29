@@ -18,9 +18,14 @@ export class Resource extends React.Component {
                 </span>))}</div>
                 <div className="container-button">
                     <Link to={`/addResource/${this.props.id}`}>
-                        <button className="btn btn-primary btn-sm">Modifier</button>
+                        <button type="button" className="btn">
+                            <i className="bi bi-pencil-square"></i>
+                        </button>
                     </Link>
-                    <button className="btn btn-primary btn-sm">Supprimer</button>
+
+                    <button type="button" className="btn">
+                        <i className="bi bi-trash"></i>
+                    </button>
                 </div>
             </div>
         )

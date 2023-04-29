@@ -5,7 +5,7 @@ import "./ListResources.scss";
 import axios from "axios";
 
 /*** version à base de fonction ************************/
-export function ListResources () {
+export function ListResources2 () {
     const [listResources, setListResources] = React.useState([])
     React.useEffect(() => {
         axios.get("/resources/all").then(response => {
@@ -14,7 +14,8 @@ export function ListResources () {
     }, []);
 
     return (
-        <div>
+
+        <div className="container">
             <h1>Ressources</h1>
             <div className="list-container">
                 {listResources.length === 0 ? "Aucune ressource disponible" : null}
@@ -22,6 +23,9 @@ export function ListResources () {
                     <Resource title={resource.title} description={resource.description} tags={resource.tags}></Resource>
                 </div>))}
             </div>
+            <Link to="/addResource">
+                <button className="btn btn-primary btn-sm">Nouveau livre</button>
+            </Link>
         </div>)
 }
 
