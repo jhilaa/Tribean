@@ -13,34 +13,38 @@ export function AddResource() {
     const [selectedTags, setSelectedTags] = useState([]);
     const history = useNavigate();
 
-    //React.useEffect(() => {setSelectedTags([])}, []);
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        console.log ("selectedTags");
-        console.log (selectedTags);
-        /*
-        if (resourceId) {
-            axios.put("/resource/${resourceId}", {
-                ...resourceData  // stocké dans le stateS
+    const onSubmit = (e) => {
+        console.log("resourceId");
+        console.log(resourceId);
+        e.preventDefault();
+        const form = new FormData(e.target);
+        console.log("formdata");
+        console.log(form.get("title"));
+        console.log(form.get("description"));
+        console.log(selectedTags);
+        if (resourceId != undefined) {
+            axios.put("/resources/${resourceId}/edit", {
+                "title":form.get("title"),
+                "description":form.get("description"),
+                "tagIds":selectedTags
             })
-                .then(() => history("/myResources"))
+                .then(() => history("/home"))
         } else {
             // création
             axios.post("/resources/add", {
-                ...resourceData  // stocké dans le stateS
+                "title":form.get("title"),
+                "description":form.get("description"),
+                "tagIds":selectedTags.map(e=>{return e.id})
             })
                 .then(() => {
-                    history("/myResources")
+                    history("/home")
                 })
         }
-        */
-
     }
 
-    const handleChange = (event) => {
-        console.log ("selectedTags");
-        console.log (selectedTags);
+
+    const handleChange = (e) => {
+
     }
 
     return (
