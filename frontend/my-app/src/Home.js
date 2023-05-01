@@ -1,7 +1,20 @@
-import React from 'react';
+import React, {useState, useEffect} from "react";
 import {ListResources} from "./ListResources";
+import axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 
 export function Home() {
+    const [listResources, setListResources] = React.useState([
+        {id: 10, title: "sql", description: "datawarehosue", tags: []}])
+    const [showSpinner, setShowSpinner] = useState( false);
+
+    React.useEffect(() => {
+        axios.get("/resources/all").then(response => {
+            setListResources(response.data)
+        }).then(()=> {setShowSpinner(!showSpinner)});
+    }, []);
+
+
     return (
         <div className="wrapper">
             {/********* Sidebar ******/}
@@ -93,7 +106,12 @@ export function Home() {
                     </div>
                 </nav>
 
-                <ListResources/>
+                <div>
+                    <Spinner animation="border" role="status" hidden={showSpinner}>
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
+                <ListResources listResources={listResources}/>
             </div>
         </div>
     );
