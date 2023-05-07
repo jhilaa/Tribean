@@ -12,7 +12,6 @@ import java.util.Set;
 @Repository
 public interface ResourceRepository extends CrudRepository<Resource, Long> {
     //TODO les méthodes qui complètent : findAll, ...
-    List<Resource> findResourcesByTagsId(Long tagId);
 
     List<Resource> findByTitleContaining (String title);
 

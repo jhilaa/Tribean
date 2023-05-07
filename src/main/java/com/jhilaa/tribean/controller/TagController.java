@@ -1,5 +1,6 @@
 package com.jhilaa.tribean.controller;
 
+import com.jhilaa.tribean.dto.responseDto.TagResponseWithResourceResponsesListDto;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
 import com.jhilaa.tribean.repository.ResourceRepository;
@@ -27,22 +28,16 @@ public class TagController {
     TagService tagService;
 
 
-
     //-- CREATE
-    @PostMapping("/tags/add")
+    @PostMapping("/tags/")
     public ResponseEntity<Object> createTag(@RequestBody Tag tag) {
         return tagService.createTag(tag);
     }
 
     //-- SELECT
     @GetMapping("/tags/all")
-    public List<Tag> getTags() {
+    public List<TagResponseWithResourceResponsesListDto> getTags() {
         return tagService.findAll();
-        /*
-        List<Tag> tags = new ArrayList<Tag>();
-        tagRepository.findAll().forEach(tags::add);
-        return tags;
-         */
     }
 
     @GetMapping("/tags/{tagId}")
@@ -53,20 +48,17 @@ public class TagController {
     }
 
     //-- UPDATE
-    @PutMapping("/tags/{tagId}/edit")
-    public ResponseEntity<Object> updateTag(@PathVariable Long tagId, @RequestBody Tag tag) {
-        return tagService.updateTag(tagId,tag);
+    @PutMapping("/tags/")
+    public ResponseEntity<Object> updateTag(@RequestBody Tag tag) {
+        return tagService.updateTag(tag);
     }
 
     //-- DELETE
-    @DeleteMapping("tags/delete/{id}")
+    @DeleteMapping("tags/{id}")
     public ResponseEntity<Object> deleteTag(@PathVariable Long id) {
         return tagService.deleteTag(id);
         //TODO delete du tag dans les ressources
     }
-
-
-
 }
 
 

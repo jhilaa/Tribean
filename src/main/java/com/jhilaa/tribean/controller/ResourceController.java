@@ -2,6 +2,7 @@ package com.jhilaa.tribean.controller;
 
 import com.jhilaa.tribean.dto.Mapper;
 import com.jhilaa.tribean.dto.requestDto.ResourceRequestDto;
+import com.jhilaa.tribean.dto.responseDto.ResourceResponseDto;
 import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
@@ -26,9 +27,11 @@ public class ResourceController {
     ResourceService resourceService;
     @Autowired
     TagRepository tagRepository;
+    @Autowired
+    ResourceRequestDto resourceRequestDto;
 
     //-- CREATE
-    @PostMapping("/resources/add")
+    @PostMapping("/resources/")
     public ResponseEntity<Object> createResource(@RequestBody ResourceRequestDto resourceRequestDto) {
         System.out.println("test test");
         return resourceService.createResource(resourceRequestDto);
@@ -36,64 +39,25 @@ public class ResourceController {
 
     //-- SELECT
     @GetMapping("/resources/all")
-    public List<Resource> getResources() {
+    public List<ResourceResponseWithTagResponsesListDto> getResources() {
+
         return resourceService.findAll();
     }
 
     @GetMapping("/resources/{resourceId}")
-    public Resource getResource(@PathVariable Long resourceId) {
-        if (resourceRepository.findById(resourceId).isPresent())
-            return resourceRepository.findById(resourceId).get();
-        else return null;
-    }
-
-    @GetMapping("/resources/test/{resourceId}")
-    public ResourceResponseWithTagResponsesListDto getResourceResponseWithTagIdsListDto (@PathVariable Long resourceId) {
-        if (resourceRepository.findById(resourceId).isPresent())
-            //return Mapper.resourceToResourceResponseWithTagIdsListDto(resourceRepository.findById(resourceId).get());
-            return Mapper.resourceToResourceResponseWithTagResponsesListDto(resourceRepository.findById(resourceId).get());
-        else return null;
+    public ResourceResponseWithTagResponsesListDto getResource(@PathVariable Long resourceId) {
+        return resourceService.findById(resourceId);
     }
 
 
     //-- UPDATE ----------------------
-    @PutMapping("/resources/{resourceId}/edit")
-    public ResponseEntity<Object> updateResource(@PathVariable Long resourceId, @RequestBody Resource resource) {
-        return resourceService.updateResource(resourceId, resource);
+    @PutMapping("/resources")
+    public ResponseEntity<Object> updateResource(@RequestBody ResourceRequestDto resourceRequestDto) {
+        return resourceService.updateResource(resourceRequestDto);
     }
 
-    @PutMapping("/resources/{resourceId}/addtag/{tagId}")
-    public ResponseEntity<Tag> addTagToResource(@PathVariable Long resourceId, Long tagId) {
-        Resource resource = resourceRepository.findById(resourceId)
-          .orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + resourceId));
-        Tag tag = tagRepository.findById(tagId)
-          .orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + tagId));
-
-        resource.addTag(tag);
-        resourceRepository.save(resource);
-        tag.addResource(resource);
-        tagRepository.save(tag);
-
-        return new ResponseEntity<>(tag, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/resources/{resourceId}/tags/{tagId}")
-    public ResponseEntity<HttpStatus> deleteTagFromResource(@PathVariable Long resourceId, Long tagId) {
-        Resource resource = resourceRepository.findById(resourceId)
-          .orElseThrow(() -> new ResourceNotFoundException("Not found Resource with id = " + resourceId));
-        Tag tag = tagRepository.findById(tagId)
-          .orElseThrow(() -> new ResourceNotFoundException("Not found Tag with id = " + tagId));
-
-        resource.removeTag(tagId);
-        resourceRepository.save(resource);
-
-        tag.removeResource(resourceId);
-        tagRepository.save(tag);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
     //-- DELETE
-    @DeleteMapping("/resources/{resourceId}/delete")
+    @DeleteMapping("/resources/{resourceId}")
     public ResponseEntity<Object> deleteResource(@PathVariable Long resourceId) {
         return resourceService.deleteResource(resourceId);
     }

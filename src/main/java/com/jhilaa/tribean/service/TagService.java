@@ -1,5 +1,9 @@
 package com.jhilaa.tribean.service;
 
+import com.jhilaa.tribean.dto.Mapper;
+import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
+import com.jhilaa.tribean.dto.responseDto.TagResponseWithResourceResponsesListDto;
+import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
 import com.jhilaa.tribean.repository.ResourceRepository;
 import com.jhilaa.tribean.repository.TagRepository;
@@ -19,11 +23,21 @@ public class TagService {
     private TagRepository tagRepository;
     @Autowired
     private ResourceRepository resourceRepository;
+    @Autowired
+    Mapper mapper;
 
-    public List<Tag> findAll () {
-        List<Tag> tags = new ArrayList<Tag>();
-        tagRepository.findAll().forEach(tags::add);
-        return tags;
+    public List<TagResponseWithResourceResponsesListDto> findAll () {
+        List<TagResponseWithResourceResponsesListDto> tagResponseWithResourceResponsesListDto = new ArrayList<TagResponseWithResourceResponsesListDto>();
+        for (Tag tag : tagRepository.findAll())
+        {
+            tagResponseWithResourceResponsesListDto.add(mapper.tagToTagResponseWithResourceResponseListDto(tag));
+        }
+        return tagResponseWithResourceResponsesListDto;
+    }
+
+    public TagResponseWithResourceResponsesListDto findById (Long id) {
+        Tag tag = tagRepository.findById(id).get();
+        return mapper.tagToTagResponseWithResourceResponseListDto(tag);
     }
 
     /**
@@ -49,9 +63,9 @@ public class TagService {
      * Update an Existing Tag
      */
     @Transactional
-    public ResponseEntity<Object> updateTag(Long id, Tag tag) {
-        if (tagRepository.findById(id).isPresent()) {
-            Tag newTag = tagRepository.findById(id).get();
+    public ResponseEntity<Object> updateTag(Tag tag) {
+        if (tagRepository.findById(tag.getId()).isPresent()) {
+            Tag newTag = tagRepository.findById(tag.getId()).get();
             newTag.setColor(tag.getColor());
             newTag.setName(tag.getName());
             Tag savedTag = tagRepository.save(newTag);
