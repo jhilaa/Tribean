@@ -45,15 +45,15 @@ function CheckBoxButtonsGroup({setSelectedTags}) {
             {checkBoxList &&
                 checkBoxList.map((val, i) => {
                     return (
-                        <div key={i} className="checkbox-list">
+                        <div key={val.id} className="checkbox-list">
                             <input
                                 type="checkbox"
                                 name={val.name}
-                                id={i}
+                                id={val.id}
                                 checked={val.selected}
                                 onChange={event => handleChange(event, val.name, i)}
                             />
-                            <label htmlFor={i}>{val.name}</label>
+                            <label htmlFor={val.id}>{val.name}</label>
                         </div>
                     );
                 })}

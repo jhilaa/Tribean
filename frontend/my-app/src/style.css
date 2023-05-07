@@ -46,6 +46,17 @@ a:focus {
     margin: 40px 0;
 }
 
+.link-unstyled, .link-unstyled:link, a {
+    color: inherit !important;
+    text-decoration: inherit !important;
+}
+
+/*
+.link-unstyled:hover a:hover {
+    color: #6d7fcc !important;
+}
+*/
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */

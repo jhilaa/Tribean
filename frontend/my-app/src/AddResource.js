@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react'
 import axios from 'axios';
-import {useParams} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
 import {useNavigate} from "react-router-dom"
 import CheckboxButtonsGroup from "./CheckboxButtonsGroup"
 
@@ -9,42 +9,26 @@ import "./AddResource.scss"
 
 
 export function AddResource() {
-    let {resourceId} = useParams(null);
     const [selectedTags, setSelectedTags] = useState([]);
     const history = useNavigate();
 
     const onSubmit = (e) => {
-        console.log("resourceId");
-        console.log(resourceId);
         e.preventDefault();
         const form = new FormData(e.target);
         console.log("formdata");
         console.log(form.get("title"));
         console.log(form.get("description"));
         console.log(selectedTags);
-        if (resourceId != undefined) {
-            axios.put("/resources/${resourceId}/edit", {
+            axios.post("/resources/", {
+                "id":0,
                 "title":form.get("title"),
                 "description":form.get("description"),
-                "tagIds":selectedTags
-            })
+                "tagIds":selectedTags.map(tag => { return tag.id})}
+            )
                 .then(() => history("/home"))
-        } else {
-            // création
-            axios.post("/resources/add", {
-                "title":form.get("title"),
-                "description":form.get("description"),
-                "tagIds":selectedTags.map(e=>{return e.id})
-            })
-                .then(() => {
-                    history("/home")
-                })
-        }
     }
 
-
     const handleChange = (e) => {
-
     }
 
     return (
@@ -63,6 +47,9 @@ export function AddResource() {
                     </div>
                     <div className="container-submit">
                         <input type="submit" value='Valider' className="btn btn-primary"></input>
+                        <Link to="/home">
+                            <input type="button" value='Annuler' className="btn btn-primary"></input>
+                        </Link>
                     </div>
                 </div>
             </form>

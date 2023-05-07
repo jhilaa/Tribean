@@ -2,16 +2,20 @@ import React, {useState, useEffect} from "react";
 import {ListResources} from "./ListResources";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import {Link} from "react-router-dom";
+import "./style.css";
 
 export function Home() {
     const [listResources, setListResources] = React.useState([
-        {id: 10, title: "sql", description: "datawarehosue", tags: []}])
-    const [showSpinner, setShowSpinner] = useState( false);
+        {id: 10, title: "sql", description: "datawarehouse", tags: []}])
+    const [showSpinner, setShowSpinner] = useState(false);
 
     React.useEffect(() => {
         axios.get("/resources/all").then(response => {
             setListResources(response.data)
-        }).then(()=> {setShowSpinner(!showSpinner)});
+        }).then(() => {
+            setShowSpinner(!showSpinner)
+        });
     }, []);
 
 
@@ -19,9 +23,12 @@ export function Home() {
         <div className="wrapper">
             {/********* Sidebar ******/}
             <nav id="sidebar">
-                <div className="sidebar-header">
-                    <h1><i className="bi bi-plus-circle"></i></h1>
+                <div className="sidebar-header link-unstyled">
+                    <Link to="/addResource" className="link-unstyled">
+                        <h1><i className="bi bi-plus-circle "></i></h1>
+                    </Link>
                 </div>
+
 
                 <ul className="list-unstyled components">
                     <p>Dummy Heading</p>
@@ -114,5 +121,7 @@ export function Home() {
                 <ListResources listResources={listResources}/>
             </div>
         </div>
+
+
     );
 }
