@@ -27,25 +27,20 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();// on disable pour nos test. Voir la
-        //http.headers().frameOptions().disable();
-        http.headers().frameOptions().disable();
-        //http.headers().frameOptions().sameOrigin();
-        http.headers().frameOptions().sameOrigin();
-        http.exceptionHandling()
-        //.authenticationEntryPoint(restAuthenticationEntryPoint)
-        .authenticationEntryPoint(restAuthenticationEntryPoint)
+        http
+        .csrf().disable()// on disable pour nos test. Voir la
+        .exceptionHandling()
         .and()
-        .sessionManagement()
+          .sessionManagement()
+          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         // stateless = gestion des sessions c$oté client
         // token JWT => stateless (pas de session côté serveur, mais côté client)
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         // url autorisées
         .authorizeHttpRequests(auth -> auth
           //@TODO test
-          .requestMatchers("**").permitAll()
-                .requestMatchers("/").permitAll()
+                //.requestMatchers("**").permitAll()
+                //.requestMatchers("/").permitAll()
                 .requestMatchers("/index.html").permitAll()
                 .requestMatchers("/static/**").permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/user")).permitAll()
