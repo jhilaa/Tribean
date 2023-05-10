@@ -1,4 +1,4 @@
-package com.jhilaa.tribean.repository.configuration;
+package com.jhilaa.tribean.configuration;
 
 import com.jhilaa.tribean.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfiguration {
 
      @Autowired
-     RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+     com.jhilaa.tribean.repository.configuration.RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Autowired
     JwtFilter jwtFilter;
