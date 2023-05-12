@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -39,13 +38,17 @@ public class SecurityConfiguration {
         // url autorisées
         .authorizeHttpRequests(auth -> auth
           //@TODO test
-                //.requestMatchers("**").permitAll()
-                //.requestMatchers("/").permitAll()
+                .requestMatchers("**").permitAll()
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/index.html").permitAll()
                 .requestMatchers("/static/**").permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/user")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/user/**")).permitAll()
+                .requestMatchers("/user").permitAll()
+                //-----
+                .requestMatchers("/user/**").permitAll()
+                .requestMatchers("/addUser").permitAll()
+                .requestMatchers("/addUser/**").permitAll()
                 .requestMatchers("/test/**").permitAll()
+                //-----
                 .requestMatchers("/authenticate").permitAll()
                 .requestMatchers("/isConnected").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
@@ -65,7 +68,6 @@ public class SecurityConfiguration {
     @Bean
     // utilisateur avec mdp crypté et stocké en base
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 

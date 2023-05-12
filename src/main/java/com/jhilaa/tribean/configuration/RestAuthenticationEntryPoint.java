@@ -14,7 +14,7 @@ import java.io.IOException;
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    // pour contourner le comprtement par défaut de Spring security, qui proposerait une page de login meme quand on en veut pas
+    // pour contourner le comportement par défaut de Spring security, qui proposerait une page de login meme quand on en veut pas
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }

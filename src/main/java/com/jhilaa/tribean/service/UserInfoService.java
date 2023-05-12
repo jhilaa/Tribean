@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.jhilaa.tribean.jwt.JwtController;
 import com.jhilaa.tribean.jwt.JwtFilter;
 import com.jhilaa.tribean.jwt.JwtUtils;
@@ -30,14 +29,25 @@ public class UserInfoService {
     JwtController jwtController;
 
     public ResponseEntity<Object> createUser(UserInfo newUserInfo) {
-        userInfoRepository.save(newUserInfo);
-        //
-        //@TODO ko à analyser
-        Authentication authentication = jwtController.logUser(newUserInfo.getEmail(), newUserInfo.getPassword());
-        String jwt = jwtUtils.generateToken(authentication);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        //
-        return new ResponseEntity<>(newUserInfo, httpHeaders, HttpStatus.OK);
+        UserInfo existingUser = userInfoRepository.findOneByEmail(newUserInfo.getEmail());
+        if (existingUser != null) {
+            return new ResponseEntity("User already existing", HttpStatus.BAD_REQUEST);
+        } else {
+            UserInfo user = new UserInfo();
+            user.setEmail(newUserInfo.getEmail());
+            user.setPassword(new BCryptPasswordEncoder().encode(newUserInfo.getPassword()));
+            user.setLastname(StringUtils.capitalize(newUserInfo.getLastname()));
+            user.setFirstname(StringUtils.capitalize(newUserInfo.getFirstname()));
+
+            userInfoRepository.save(user);
+            //
+            //@TODO ko à analyser
+            Authentication authentication = jwtController.logUser(newUserInfo.getEmail(), newUserInfo.getPassword());
+            String jwt = jwtUtils.generateToken(authentication);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            //
+            return new ResponseEntity<>(newUserInfo, httpHeaders, HttpStatus.OK);
+        }
     }
 }

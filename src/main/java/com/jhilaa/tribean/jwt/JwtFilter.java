@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private boolean isUrlPermitted(HttpServletRequest request) {
         String url = request.getRequestURI();
-        if(url.equals("/authenticate") || url.equals("/user/create")) {
+        if(url.equals("/authenticate") || url.equals("/user")) {
             return true;
         }
         return false;
