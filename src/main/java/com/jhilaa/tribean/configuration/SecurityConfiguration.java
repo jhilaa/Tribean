@@ -38,17 +38,8 @@ public class SecurityConfiguration {
         // url autorisées
         .authorizeHttpRequests(auth -> auth
           //@TODO test
-                .requestMatchers("**").permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/index.html").permitAll()
-                .requestMatchers("/static/**").permitAll()
                 .requestMatchers("/user").permitAll()
-                //-----
                 .requestMatchers("/user/**").permitAll()
-                .requestMatchers("/addUser").permitAll()
-                .requestMatchers("/addUser/**").permitAll()
-                .requestMatchers("/test/**").permitAll()
-                //-----
                 .requestMatchers("/authenticate").permitAll()
                 .requestMatchers("/isConnected").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()

@@ -9,6 +9,7 @@ import com.jhilaa.tribean.model.Tag;
 import com.jhilaa.tribean.repository.ResourceRepository;
 import com.jhilaa.tribean.repository.TagRepository;
 import com.jhilaa.tribean.service.ResourceService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-//TODO décommenter pour remettre les sécus //@SecurityRequirement(name = "bearerAuth")
+@SecurityRequirement(name = "bearerAuth")
 public class ResourceController {
 
     @Autowired
