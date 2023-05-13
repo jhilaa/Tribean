@@ -1,28 +1,61 @@
 import logo from "./logo.svg";
 import {Link} from "react-router-dom";
+import React from "react";
 
 export function SideBar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <img className="logo-img-s" src={logo}/>
-            <button className="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
-
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/ListResources">Ressources disponibles</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/AddResource">Nouvelle ressource</Link>
-                    </li>
-                </ul>
-                <div>Bienvenue, ...</div>
-                <button variant="secondary">Se déconnecter</button>
+        <div>
+        <nav id="sidebar">
+            <div className="sidebar-header link-unstyled">
+                <Link to="/addResource" className="link-unstyled">
+                    <h1><i className="bi bi-plus-circle "></i></h1>
+                </Link>
             </div>
+
+
+            <ul className="list-unstyled components">
+                <p>Dummy Heading</p>
+                <li className="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                       className="dropdown-toggle">Home</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
+                       className="dropdown-toggle">Pages</a>
+                    <ul className="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+
+            <ul className="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" className="download">Download
+                        source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" className="article">Back to
+                        article</a>
+                </li>
+            </ul>
         </nav>
+        </div>
     )
 }
