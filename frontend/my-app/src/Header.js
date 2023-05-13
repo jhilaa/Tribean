@@ -2,28 +2,33 @@ import { Link } from "react-router-dom";
 import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.scss'
+import React from "react";
 
 export function Header() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <img className="logo-img-s" src={logo}/>
-            <button className="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
+            <div className="container-fluid">
 
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/ListResources">Ressources disponibles</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/AddResource">Nouvelle ressource</Link>
-                    </li>
-                </ul>
-                <div>Bienvenue, ...</div>
-                <button variant="secondary">Se déconnecter</button>
+                <button type="button" id="sidebarCollapse" className="btn btn-info">
+                    <i className="bi bi-layout-sidebar-inset"></i>
+                </button>
+                <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button"
+                        data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i className="fas fa-align-justify"></i>
+                </button>
+
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="nav navbar-nav ml-auto">
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#">Contact</a>
+                        </li>
+                        <li className="nav-item active">
+                            <a className="nav-link" href="#">Login</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     )
