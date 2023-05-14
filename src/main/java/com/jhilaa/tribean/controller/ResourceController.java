@@ -34,7 +34,6 @@ public class ResourceController {
     //-- CREATE
     @PostMapping("/resources/")
     public ResponseEntity<Object> createResource(@RequestBody ResourceRequestDto resourceRequestDto) {
-        System.out.println("test test");
         return resourceService.createResource(resourceRequestDto);
     }
 

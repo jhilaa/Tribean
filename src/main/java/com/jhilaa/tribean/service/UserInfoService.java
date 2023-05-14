@@ -30,7 +30,8 @@ public class UserInfoService {
 
     public ResponseEntity<Object> createUser(UserInfo newUserInfo) {
         UserInfo existingUser = userInfoRepository.findOneByEmail(newUserInfo.getEmail());
-        if (existingUser != null) {
+        System.out.println("**************");
+    if (existingUser != null) {
             return new ResponseEntity("User already existing", HttpStatus.BAD_REQUEST);
         } else {
             UserInfo user = new UserInfo();

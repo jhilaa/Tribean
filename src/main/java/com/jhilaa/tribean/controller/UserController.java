@@ -35,7 +35,6 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity addNewUser(@RequestBody UserInfo userInfo) {
-
         return userInfoService.createUser(userInfo);
     }
 
