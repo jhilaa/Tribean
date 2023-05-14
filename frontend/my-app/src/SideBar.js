@@ -4,7 +4,7 @@ import React from "react";
 
 export function SideBar() {
     return (
-        <div>
+        <div className="mr-3">
         <nav id="sidebar">
             <div className="sidebar-header link-unstyled">
                 <Link to="/addResource" className="link-unstyled">

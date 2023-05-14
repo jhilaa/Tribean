@@ -10,6 +10,7 @@ import { Header } from './Header';
 import { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
+import {SideBar} from "./SideBar";
 
 export const AUTH_TOKEN_KEY = 'jhi-authenticationToken'
 

@@ -15,10 +15,10 @@ export function Header({userInfo}) {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light mb-0">
             <div className="container-fluid">
 
-                <button type="button" id="sidebarCollapse" className="btn btn-info">
+                <button type="button" id="sidebarCollapse" className="btn btn-info mr-3 ml-2">
                     <i className="bi bi-layout-sidebar-inset"></i>
                 </button>
                 <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button"

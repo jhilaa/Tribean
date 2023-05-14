@@ -5,10 +5,9 @@ import Spinner from "react-bootstrap/Spinner";
 import {Link} from "react-router-dom";
 import "./style.css";
 import {SideBar} from "./SideBar";
-import {Header} from "./Header";
 
 export function Home() {
-    const [listResources, setListResources] = React.useState([
+    const [listResources, setListResources] = useState([
         {id: 10, title: "sql", description: "datawarehouse", tags: []}])
     const [showSpinner, setShowSpinner] = useState(false);
 
@@ -23,11 +22,10 @@ export function Home() {
 
     return (
         <div className="wrapper">
+            <div id="content" className="d-flex flex-row p-0" >
             <SideBar />
             {/********* page content ******/}
-            <div id="content">
-                <Spinner />
-                <ListResources listResources={listResources}/>
+            <ListResources listResources={listResources}/>
             </div>
         </div>
 
