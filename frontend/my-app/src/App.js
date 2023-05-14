@@ -20,9 +20,12 @@ function App() {
     useEffect(() => {
         // intercepteur sur chaque requête
         axios.interceptors.request.use(function (request) {
-            const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
+          console.log('test') ; 
+          console.log(sessionStorage.getItem(AUTH_TOKEN_KEY)) ; 
+          const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
             if (token) {
                 request.headers.Authorization = `Bearer ${token}`;
+              console.log(request.headers.Authorization) ; 
             }
             return request
         }, (error) => {
