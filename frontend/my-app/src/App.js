@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import React from 'react';
 import { Routes, Route } from 'react-router';
 import { ListResources } from './ListResources';
 import { AddResource  } from './AddResource';
@@ -13,6 +14,7 @@ import axios from 'axios'
 export const AUTH_TOKEN_KEY = 'jhi-authenticationToken'
 
 function App() {
+    const[userInfo, setUserInfo] = React.useState('');
 
     useEffect(() => {
         // intercepteur sur chaque requête
@@ -30,13 +32,14 @@ function App() {
   return (
   <div>
       <div className="App">
+          <Header userInfo={userInfo}/>
           <Routes>
-              <Route path="home" element ={<Home />} />
+              <Route path="home" element ={<Home userInfo={userInfo}/>} />
               <Route path="listResources" element={<ListResources />} />
               <Route path="addResource" element={<AddResource />} />
               <Route path="addResource/:resourceId" element={<AddResource />} />
               <Route path="login" element={<Login />} />
-              <Route path="addUser" element={<AddUser />} />
+              <Route path="addUser" element={<AddUser setUserInfo={setUserInfo}/>} />
           </Routes>
       </div>
   </div>

@@ -16,5 +16,4 @@ export function ListResources ({listResources}) {
         </div>)
 }
 
-export default ListResources;
 

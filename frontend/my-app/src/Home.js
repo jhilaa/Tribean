@@ -26,7 +26,6 @@ export function Home() {
             <SideBar />
             {/********* page content ******/}
             <div id="content">
-                <Header />
                 <Spinner />
                 <ListResources listResources={listResources}/>
             </div>

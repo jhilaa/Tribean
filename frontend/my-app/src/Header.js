@@ -1,10 +1,19 @@
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.scss'
 import React from "react";
+import {AUTH_TOKEN_KEY} from "./App";
 
-export function Header() {
+export function Header({userInfo}) {
+    const history = useNavigate();
+
+    /* le token est dans le storage, il "suffit" de le supprimer */
+    const signout = () => {
+        sessionStorage.removeItem(AUTH_TOKEN_KEY);
+        history('/login');
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
@@ -28,7 +37,7 @@ export function Header() {
                             <Link to="/login">Login</Link>
                         </li>
                     </ul>
-                </div>
+                 </div>
             </div>
         </nav>
     )

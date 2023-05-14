@@ -29,6 +29,9 @@ export class AddUser extends React.Component {
                 const jwt = bearerToken.slice(7, bearerToken.length);
                 sessionStorage.setItem(AUTH_TOKEN_KEY,jwt)
             }
+            this.props.setUserInfo(response.data.firstName + " "+ response.data.lastName);
+            // redirection vers listBooks
+            this.props.history("/home");
         })
     }
 
@@ -60,7 +63,7 @@ export class AddUser extends React.Component {
                             </div>
                         </form>
                     </div>
-                    <div><Link to="/">Retour à l'accueil</Link></div>
+                    <div><Link to="home">Retour à l'accueil</Link></div>
                 </div>
             </div>
         )
