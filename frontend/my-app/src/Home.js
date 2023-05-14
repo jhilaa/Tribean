@@ -24,16 +24,10 @@ export function Home() {
     return (
         <div className="wrapper">
             <SideBar />
-
             {/********* page content ******/}
             <div id="content">
                 <Header />
-
-                <div>
-                    <Spinner animation="border" role="status" hidden={showSpinner}>
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
-                </div>
+                <Spinner />
                 <ListResources listResources={listResources}/>
             </div>
         </div>

@@ -24,8 +24,8 @@ export function Header() {
                         <li className="nav-item active">
                             <a className="nav-link" href="#">Contact</a>
                         </li>
-                        <li className="nav-item active">
-                            <a className="nav-link" href="#">Login</a>
+                        <li className="nav-item active nav-link">
+                            <Link to="/login">Login</Link>
                         </li>
                     </ul>
                 </div>

@@ -19,7 +19,9 @@ export class AddUser extends React.Component {
     }
 
     onSubmit = (event) => {
-        axios.post('/users', {
+        console.log("submit ----------------");
+        event.preventDefault();
+        axios.post('user', {
             ...this.state.userData
         }).then(response => {
             const bearerToken = response?.headers?.authorization;
@@ -43,11 +45,11 @@ export class AddUser extends React.Component {
                             </div>
                             <div>
                                 <label>nom</label>
-                                <input name="lastName" type="text" className="form-control" onChange={this.handleChange} />
+                                <input name="lastname" type="text" className="form-control" onChange={this.handleChange} />
                             </div>
                             <div>
                                 <label>prenom</label>
-                                <input name="firstName" type="text" className="form-control" onChange={this.handleChange} />
+                                <input name="firstname" type="text" className="form-control" onChange={this.handleChange} />
                             </div>
                             <div>
                                 <label>password</label>
