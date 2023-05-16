@@ -7,8 +7,7 @@ import "./style.css";
 import {SideBar} from "./SideBar";
 
 export function Home() {
-    const [listResources, setListResources] = useState([
-        {id: 10, title: "sql", description: "datawarehouse", tags: []}])
+    const [listResources, setListResources] = useState([])
     const [showSpinner, setShowSpinner] = useState(false);
 
     React.useEffect(() => {

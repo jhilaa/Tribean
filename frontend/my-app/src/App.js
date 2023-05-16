@@ -20,12 +20,9 @@ function App() {
     useEffect(() => {
         // intercepteur sur chaque requête
         axios.interceptors.request.use(function (request) {
-          console.log('test') ; 
-          console.log(sessionStorage.getItem(AUTH_TOKEN_KEY)) ; 
           const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
             if (token) {
                 request.headers.Authorization = `Bearer ${token}`;
-              console.log(request.headers.Authorization) ; 
             }
             return request
         }, (error) => {
@@ -35,10 +32,11 @@ function App() {
 
   return (
   <div>
-      <div className="App">
+
           <Header userInfo={userInfo}/>
+      <div className="App">
           <Routes>
-              <Route path="home" element ={<Home userInfo={userInfo}/>} />
+              <Route path="home" element ={<Home />} />
               <Route path="listResources" element={<ListResources />} />
               <Route path="addResource" element={<AddResource />} />
               <Route path="addResource/:resourceId" element={<AddResource />} />

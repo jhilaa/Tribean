@@ -15,10 +15,6 @@ export function AddResource() {
     const onSubmit = (e) => {
         e.preventDefault();
         const form = new FormData(e.target);
-        console.log("formdata");
-        console.log(form.get("title"));
-        console.log(form.get("description"));
-        console.log(selectedTags);
             axios.post("/resources/", {
                 "id":0,
                 "title":form.get("title"),

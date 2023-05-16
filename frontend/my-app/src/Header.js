@@ -1,8 +1,8 @@
+import React, { useEffect } from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.scss'
-import React from "react";
 import {AUTH_TOKEN_KEY} from "./App";
 
 export function Header({userInfo}) {
@@ -13,6 +13,10 @@ export function Header({userInfo}) {
         sessionStorage.removeItem(AUTH_TOKEN_KEY);
         history('/login');
     }
+
+    useEffect(()=> {
+        console.log("useEffect");
+    });
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-0">
@@ -27,7 +31,7 @@ export function Header({userInfo}) {
                         aria-label="Toggle navigation">
                     <i className="fas fa-align-justify"></i>
                 </button>
-
+                <div>Bienvenue, {userInfo}</div>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="nav navbar-nav ml-auto">
                         <li className="nav-item active">
@@ -35,6 +39,9 @@ export function Header({userInfo}) {
                         </li>
                         <li className="nav-item active nav-link">
                             <Link to="/login">Login</Link>
+                        </li>
+                        <li className="nav-item active nav-link">
+                            <Link to="/logout">Logout</Link>
                         </li>
                     </ul>
                  </div>
