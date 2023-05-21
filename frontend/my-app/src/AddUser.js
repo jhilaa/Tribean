@@ -5,7 +5,7 @@ import './AddUser.scss'
 import axios from "axios";
 import { AUTH_TOKEN_KEY } from "./App";
 
-export function AddUser ({setUserInfo}) {
+export function AddUser ({setUserConnectedInfoLogin}) {
     const history = useNavigate();
 
     const onSubmit = ((e) => {
@@ -23,9 +23,9 @@ export function AddUser ({setUserInfo}) {
                 const jwt = bearerToken.slice(7, bearerToken.length);
                 sessionStorage.setItem(AUTH_TOKEN_KEY, jwt)
             }
-            setUserInfo(form.get("firstname") + " " + form.get("lastname"));
+            setUserConnectedInfoLogin(form.get("email"));
             // redirection
-            //this.props.history("/home");
+            history("/home");
         })
     })
 

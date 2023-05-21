@@ -7,16 +7,12 @@ import {AUTH_TOKEN_KEY} from "./App";
 
 export function Header({userInfo}) {
     const history = useNavigate();
-
-    /* le token est dans le storage, il "suffit" de le supprimer */
-    const signout = () => {
-        sessionStorage.removeItem(AUTH_TOKEN_KEY);
-        history('/login');
-    }
-
+    /*
     useEffect(()=> {
         console.log("useEffect");
     });
+
+     */
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-0">
