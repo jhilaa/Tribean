@@ -17,6 +17,7 @@ public class ResourceResponseWithTagResponsesListDto extends ResourceResponseDto
     public ResourceResponseWithTagResponsesListDto() {
         super();
         this.tagResponseDtoList=new ArrayList<>();
+        //TODO
     }
 
     @Override

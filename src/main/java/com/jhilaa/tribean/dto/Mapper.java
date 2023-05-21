@@ -1,16 +1,15 @@
 package com.jhilaa.tribean.dto;
 
 import com.jhilaa.tribean.dto.requestDto.ResourceRequestDto;
-import com.jhilaa.tribean.dto.responseDto.ResourceResponseDto;
-import com.jhilaa.tribean.dto.responseDto.ResourceResponseWithTagResponsesListDto;
-import com.jhilaa.tribean.dto.responseDto.TagResponseDto;
-import com.jhilaa.tribean.dto.responseDto.TagResponseWithResourceResponsesListDto;
+import com.jhilaa.tribean.dto.responseDto.*;
 import com.jhilaa.tribean.model.Resource;
 import com.jhilaa.tribean.model.Tag;
+import com.jhilaa.tribean.model.UserInfo;
 import com.jhilaa.tribean.repository.ResourceRepository;
 import com.jhilaa.tribean.repository.TagRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -96,5 +95,15 @@ public class Mapper {
 
         return tagResponseWithResourceResponsesListDto;
     }
+
+    public static UserInfoResponseDto userInfoToUserInfoResponseDto (UserInfo userInfo) {
+        UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto();
+        //
+        userInfoResponseDto.setEmail(userInfo.getEmail());
+        userInfoResponseDto.setFirstname(userInfo.getFirstname());
+        userInfoResponseDto.setLastname(userInfo.getLastname());
+        return userInfoResponseDto;
+    }
+
 
 }
