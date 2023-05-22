@@ -52,7 +52,7 @@ function App() {
     });
 
     React.useEffect(() => {
-        setInfoUserConnected(null, null, null)
+        //setInfoUserConnected(null, null, null)
         axios.get('/getUserConnectedInfo').then(response => {
             setUserConnectedInfoLogin(response.data.login);
             setUserConnectedInfoFirstName(response.data.firstName);

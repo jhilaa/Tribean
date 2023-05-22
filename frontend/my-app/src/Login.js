@@ -28,16 +28,16 @@ export function Login({setUserConnectedInfoLogin}) {
                 if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
                     const jwt = bearerToken.slice(7, bearerToken.length);
                     sessionStorage.setItem(AUTH_TOKEN_KEY, jwt)
+                    // redirection
+                    history("/home");
+                    setUserConnectedInfoLogin(form.get("email"));
                 }
             }).catch(() => {
-                //TO catch
+                //To catch
             })
-            // redirection
-            history("/home");
-            setUserConnectedInfoLogin(form.get("email"));
+
         }
     )
-
 
     return (
         <div className="login-container">
