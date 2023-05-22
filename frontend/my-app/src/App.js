@@ -63,20 +63,21 @@ function App() {
 
   return (
     <div id="page">
-      <Header userInfo={userConnectedInfoLogin}/>
+      <Header userConnectedInfoLogin={userConnectedInfoLogin} setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>
       <div className="App">
           <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="login" element={<Login />} />
+              <Route path="/" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
+              <Route path="login" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
               <Route path="home" element ={<Home />} />
               <Route path="addResource" element={<AddResource />} />
               <Route path="addResource/:resourceId" element={<AddResource />} />
               <Route path="addUser" element={<AddUser setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
-              <Route path="*" element={<Login />} />
+              <Route path="*" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
           </Routes>
       </div>
   </div>
   );
+
 }
 
 export default App;

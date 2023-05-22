@@ -5,14 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.scss'
 import {AUTH_TOKEN_KEY} from "./App";
 
-export function Header({userInfo}) {
-    const history = useNavigate();
-    /*
-    useEffect(()=> {
-        console.log("useEffect");
-    });
+export function Header({userConnectedInfoLogin, setUserConnectedInfoLogin}) {
 
-     */
+    //const history = useNavigate();
+
+    const logout = (e) => {
+        setUserConnectedInfoLogin(null)
+        sessionStorage.removeItem(AUTH_TOKEN_KEY)
+        //history('/login')
+    }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-0">
@@ -27,7 +28,7 @@ export function Header({userInfo}) {
                         aria-label="Toggle navigation">
                     <i className="fas fa-align-justify"></i>
                 </button>
-                <div>Bienvenue, {userInfo}</div>
+                <div>Bienvenue, {userConnectedInfoLogin}</div>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="nav navbar-nav ml-auto">
                         <li className="nav-item active">
@@ -37,10 +38,10 @@ export function Header({userInfo}) {
                             <Link to="/login">Login</Link>
                         </li>
                         <li className="nav-item active nav-link">
-                            <Link to="/logout">Logout</Link>
+                            <Link onClick={logout} to="/">Logout</Link>
                         </li>
                     </ul>
-                 </div>
+                </div>
             </div>
         </nav>
     )
