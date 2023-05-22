@@ -42,6 +42,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/user/**").permitAll()
                 .requestMatchers("/authenticate").permitAll()
                 .requestMatchers("/isConnected").permitAll()
+                .requestMatchers("/getUserConnectedInfo").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/api-docs.yaml").permitAll()
                 .requestMatchers("/swagger-resources/**").permitAll()
