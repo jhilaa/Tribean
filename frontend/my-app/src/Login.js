@@ -6,16 +6,6 @@ import axios from "axios";
 import {AUTH_TOKEN_KEY} from "./App";
 
 export function Login({setUserConnectedInfoLogin}) {
-
-    /*
-    constructor() {
-        super();
-        this.state = {userData: {}}
-        //sans les this.truc = this.truc.bind(this), on a des objets null
-        this.onSubmit = this.onSubmit.bind(this)
-        //this.handleChange = this.handleChange.bind(this)
-    }
-     */
     const history = useNavigate();
     const onSubmit = ((e) => {
             e.preventDefault();

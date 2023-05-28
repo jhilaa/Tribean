@@ -15,8 +15,6 @@ import {useNavigate} from "react-router-dom";
 
 export const AUTH_TOKEN_KEY = 'jhi-authenticationToken'
 
-
-
 function App() {
     const [userConnectedInfoLogin, setUserConnectedInfoLogin] = React.useState("");
     const [userConnectedInfoFirstName, setUserConnectedInfoFirstName] = React.useState("");
@@ -53,8 +51,8 @@ function App() {
 
     React.useEffect(() => {
         //setInfoUserConnected(null, null, null)
-        axios.get('/getUserConnectedInfo').then(response => {
-            setUserConnectedInfoLogin(response.data.login);
+        axios.get('/userConnectedInfo').then(response => {
+            setUserConnectedInfoLogin(response.data.email);
             setUserConnectedInfoFirstName(response.data.firstName);
             setUserConnectedInfoLastName(response.data.lastName);
         })
