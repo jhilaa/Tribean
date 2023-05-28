@@ -51,7 +51,6 @@ public class ResourceController {
         return resourceService.findById(resourceId);
     }
 
-
     //-- UPDATE ----------------------
     @PutMapping("/resources")
     public ResponseEntity<Object> updateResource(@RequestBody ResourceRequestDto resourceRequestDto) {

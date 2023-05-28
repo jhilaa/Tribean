@@ -46,7 +46,7 @@ public class UserController {
     }
 
     //TODO à déplacer dans UserInfoService
-    @GetMapping(value = "/userConnectedInfo")
+    @GetMapping(value = "/userconnectedinfo")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity getUserConnectedInfo() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -20,6 +20,17 @@ public class ResourceResponseWithTagResponsesListDto extends ResourceResponseDto
         //TODO
     }
 
+    /*
+    public void setTagResponseDtoList(List<TagResponseDto> tagResponseDtoList) {
+        this.tagResponseDtoList = tagResponseDtoList;
+        return;
+    }
+
+    public List<TagResponseDto> getTagResponseDtoList() {
+        return (this.tagResponseDtoList);
+    }
+    */
+
     @Override
     public String toString() {
         return "Ressource {" +

@@ -21,6 +21,7 @@ import java.util.Set;
 public class Mapper {
     private static TagRepository tagRepository;
     private static ResourceRepository resourceRepository;
+
     @Autowired
     public Mapper(TagRepository tagRepository,
                   ResourceRepository resourceRepository) {
@@ -28,6 +29,7 @@ public class Mapper {
         Mapper.resourceRepository = resourceRepository;
     }
 
+    //----
     public static ResourceResponseDto resourceToResourceResponseDto (Resource resource) {
         ResourceResponseDto resourceResponseDto = new ResourceResponseDto();
         //
@@ -37,6 +39,7 @@ public class Mapper {
         return resourceResponseDto;
     }
 
+    //----
     public static ResourceResponseWithTagResponsesListDto resourceToResourceResponseWithTagResponsesListDto (Resource resource) {
         ResourceResponseWithTagResponsesListDto resourceResponseWithTagResponsesListDto
           = new ResourceResponseWithTagResponsesListDto();
@@ -44,16 +47,20 @@ public class Mapper {
         resourceResponseWithTagResponsesListDto.setId(resource.getId());
         resourceResponseWithTagResponsesListDto.setTitle(resource.getTitle());
         resourceResponseWithTagResponsesListDto.setDescription(resource.getDescription());
+
+        ArrayList<TagResponseDto> newTagResponseDtoList = new ArrayList<TagResponseDto>();
         Set<Tag> tags = resource.getTags();
-        TagResponseDto tagResponseDto = new TagResponseDto();
         for (Tag tag: tags) {
+            TagResponseDto tagResponseDto = new TagResponseDto();
             tagResponseDto.setId(tag.getId());
             tagResponseDto.setName(tag.getName());
             tagResponseDto.setColor(tag.getColor());
-            resourceResponseWithTagResponsesListDto.getTagResponseDtoList().add(tagResponseDto);
+            newTagResponseDtoList.add(tagResponseDto);
         }
+        resourceResponseWithTagResponsesListDto.setTagResponseDtoList(newTagResponseDtoList);
     return resourceResponseWithTagResponsesListDto;
     }
+    //----
 
     public static Resource resourceRequestDtoToResource(ResourceRequestDto resourceRequestDto) {
 

@@ -30,6 +30,8 @@ public class SecurityConfiguration {
         .csrf().disable()// on disable pour nos test. Voir la
         .exceptionHandling()
         .and()
+        .headers().frameOptions().disable()
+        .and()
           .sessionManagement()
           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         // stateless = gestion des sessions c$oté client
@@ -42,7 +44,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/user/**").permitAll()
                 .requestMatchers("/authenticate").permitAll()
                 .requestMatchers("/isConnected").permitAll()
-                .requestMatchers("/getUserConnectedInfo").permitAll()
+                .requestMatchers("/userConnectedInfo").permitAll()
+                .requestMatchers("/userconnectedinfo").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 .requestMatchers("/api-docs.yaml").permitAll()
                 .requestMatchers("/swagger-resources/**").permitAll()
