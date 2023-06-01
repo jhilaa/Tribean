@@ -1,9 +1,6 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {createSearchParams, Link} from "react-router-dom";
 import "./Resource.scss"
-
-
-
 
 export function Resource (props) {
 
@@ -15,7 +12,8 @@ export function Resource (props) {
                 <span key={tag.id} className="badge badge-primary">{tag.name}</span>))}
             </div>
             <div className="container-button">
-                <Link to="/addResource/{id}">
+                <Link to={`/addResource/${props.resourceId}`}
+                >
                     <button type="button" className="btn">
                         <i className="bi bi-pencil-square"></i>
                     </button>

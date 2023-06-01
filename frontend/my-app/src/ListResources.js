@@ -11,7 +11,7 @@ export function ListResources ({listResources}) {
             <h1>Ressources</h1>
             <div className="list-container">
                 {listResources.map ((resource) =>
-                <Resource key={resource.id} title={resource.title} description={resource.description} tags={resource.tagResponseDtoList}/>)}
+                <Resource key={resource.id} resourceId={resource.id} title={resource.title} description={resource.description} tags={resource.tagResponseDtoList}/>)}
             </div>
         </div>)
 }
