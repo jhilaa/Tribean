@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import React from 'react';
+import React, {useState} from 'react';
 import { Routes, Route } from 'react-router';
 import { ListResources } from './ListResources';
 import { AddResource  } from './AddResource';
@@ -8,6 +8,7 @@ import { Login } from './Login';
 import { Home } from './Home';
 import { Header } from './Header';
 import { useEffect } from 'react'
+import Spinner from 'react-bootstrap/Spinner'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import {SideBar} from "./SideBar";
@@ -15,18 +16,23 @@ import {useNavigate} from "react-router-dom";
 
 export const AUTH_TOKEN_KEY = 'jhi-authenticationToken'
 
-function App() {
-    const [userConnectedInfoLogin, setUserConnectedInfoLogin] = React.useState("");
-    const [userConnectedInfoFirstName, setUserConnectedInfoFirstName] = React.useState("");
-    const [userConnectedInfoLastName, setUserConnectedInfoLastName] = React.useState("");
-    const [loading, setLoading] = React.useState(false)
+const UserConnected = ({ setUserConnectedInfoLogin, userConnectedInfoLogin }) => {
     const history = useNavigate();
+    React.useEffect(() => {
+        setUserConnectedInfoLogin(null)
+        axios.get('/isConnected').then(response => {
+            setUserConnectedInfoLogin(response.data)
+        })
+    }, [history, setUserConnectedInfoLogin])
 
-    const setInfoUserConnected = (login, firstName, lastName) => {
-        setUserConnectedInfoLogin(login)
-        setUserConnectedInfoFirstName(firstName)
-        setUserConnectedInfoLastName(lastName)
-    };
+    return (<>
+        {userConnectedInfoLogin && <Header userConnectedInfoLogin={userConnectedInfoLogin} setUserConnectedInfoLogin={setUserConnectedInfoLogin} />}
+    </>)
+}
+
+function App() {
+    const [userConnectedInfoLogin, setUserConnectedInfoLogin] = useState('');
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         // intercepteur sur chaque requête
@@ -35,8 +41,10 @@ function App() {
             if (token) {
                 request.headers.Authorization = `Bearer ${token}`;
             }
+            setLoading(true)
             return request
         }, (error) => {
+            setLoading(false)
             return Promise.reject(error);
         });
 
@@ -47,22 +55,12 @@ function App() {
             setLoading(false)
             return Promise.reject(error);
         });
-    });
-
-    React.useEffect(() => {
-        //setInfoUserConnected(null, null, null)
-        axios.get('/userConnectedInfo').then(response => {
-            setUserConnectedInfoLogin(response.data.email);
-            setUserConnectedInfoFirstName(response.data.firstName);
-            setUserConnectedInfoLastName(response.data.lastName);
-        })
-    //}, [history/*, userConnectedInfoLogin*/])
-    }, [])
+    })
 
   return (
     <div id="page">
       <Header userConnectedInfoLogin={userConnectedInfoLogin} setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>
-      <div className="App">
+        <div className="App">
           <Routes>
               <Route path="/" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
               <Route path="login" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />

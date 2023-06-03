@@ -7,7 +7,7 @@ import {AUTH_TOKEN_KEY} from "./App";
 
 export function Header({userConnectedInfoLogin, setUserConnectedInfoLogin}) {
 
-    //const history = useNavigate();
+    const history = useNavigate();
 
     const logout = (e) => {
         setUserConnectedInfoLogin(null)

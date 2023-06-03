@@ -1,9 +1,10 @@
 import React from 'react';
+import {useState, useEffect} from 'react'
 import {createSearchParams, Link} from "react-router-dom";
-import "./Resource.scss"
+import "./Resource.scss";
+
 
 export function Resource (props) {
-
     return (
         <div key={props.title} className="resource-container">
             <div>Titre : {props.title}</div>
@@ -12,8 +13,7 @@ export function Resource (props) {
                 <span key={tag.id} className="badge badge-primary">{tag.name}</span>))}
             </div>
             <div className="container-button">
-                <Link to={`/addResource/${props.id}`}
-                >
+                <Link to={`/addResource/${props.id}`} >
                     <button type="button" className="btn">
                         <i className="bi bi-pencil-square"></i>
                     </button>

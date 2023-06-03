@@ -54,3 +54,9 @@ export function Login({setUserConnectedInfoLogin}) {
         </div>
     )
 }
+
+// Wrap and export
+export default function Wrapper(props) {
+    const history = useNavigate();
+    return <Login {...props} history={history} />;
+}
