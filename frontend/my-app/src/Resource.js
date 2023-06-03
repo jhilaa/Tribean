@@ -12,7 +12,7 @@ export function Resource (props) {
                 <span key={tag.id} className="badge badge-primary">{tag.name}</span>))}
             </div>
             <div className="container-button">
-                <Link to={`/addResource/${props.resourceId}`}
+                <Link to={`/addResource/${props.id}`}
                 >
                     <button type="button" className="btn">
                         <i className="bi bi-pencil-square"></i>
