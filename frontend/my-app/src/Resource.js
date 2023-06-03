@@ -8,7 +8,7 @@ export function Resource (props) {
         <div key={props.title} className="resource-container">
             <div>Titre : {props.title}</div>
             <div>{props.description}</div>
-            <div>{props.tags?.map((tag) => (
+            <div>{props.tagResponseDtoList?.map((tag) => (
                 <span key={tag.id} className="badge badge-primary">{tag.name}</span>))}
             </div>
             <div className="container-button">
