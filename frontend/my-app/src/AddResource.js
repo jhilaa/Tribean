@@ -2,49 +2,68 @@ import React from 'react';
 import {useState, useEffect} from 'react'
 import axios from 'axios';
 import {Link, useLocation, useParams} from "react-router-dom"
-import {useNavigate} from "react-router-dom"
-import CheckboxButtonsGroup from "./CheckboxButtonsGroup"
+import {useNavigate} from "react-router-dom";
+import "./AddResource.scss";
 
-import "./AddResource.scss"
 
 export function AddResource() {
-    const { resourceId } = useParams();
-    const [resourceData, setResourceData] = useState({title:"", description:""});
-    const [tagsData, setTagsData] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
-    const [showSpinner, setShowSpinner] = useState(false);
+    const {resourceId} = useParams();
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [tags, setTags] = useState([]);
     const history = useNavigate();
+    const {align, design, width, length, icon} = {
+        design: "button-style",
+        align: "horizontal",
+        width: 350,
+        length: {tags}.length,
+        icon: true
+    };
 
-   React.useEffect(() => {
-       if (resourceId) {
-
-
-        axios.get("/resources").then(response => {
-                setTagsData(response.data)
-            setResourceData({
-                title: "",
-                description: "",
-            });
-            }).then(() => {
-                setShowSpinner(!showSpinner)
-            });
-        }
+    useEffect(() => {
+        axios.get("/tags/all").then(response => {
+            setTags(response.data.map(e => ({...e, selected: false})));
+        }).then(() => {
+            if (resourceId) {
+                axios.get("/resources/2").then(response => {
+                    console.log(response);
+                    let titleElement = document.getElementById("title");
+                    let descriptionElement = document.getElementById("description");
+                    titleElement.value = response.data.title;
+                    descriptionElement.value = response.data.description;
+                    response.data.tagResponseDtoList.map((tag, index)=>{handleTagChange(index)});
+                    //setTitle(response.title);
+                    //setDescription(response.description);
+                    //setTags(response.tagResponseDtoList.map(tag => {return tag.id}))
+                })
+            }
+        })
     }, []);
 
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
 
-    const onSubmit = (e) => {
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    };
+
+    const handleTagChange = (index) => {
+        //tags[index].selected = !tags[index].selected;
+        let data = tags;
+        data[index].selected = !data[index].selected;
+        data[index].checked = !data[index].checked;
+        setTags([...data]);
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const form = new FormData(e.target);
         const data = {
-            "id": 0,
-            "title": form.get("title"),
-            "description": form.get("description"),
-            "tagIds": selectedTags.map(tag => {
-                return tag.id
-            })
+            "title": title,
+            "description": description,
+            "tagIds": tags.filter(tag => tag.selected).map(tag => tag.id)
         };
-
-        if (props.idResource) {
+        if (resourceId) {
             axios.put("/resources/", {...data})
                 .then(() => history("/home"))
         } else {
@@ -53,32 +72,51 @@ export function AddResource() {
         }
     }
 
-    const handleChange = (e) => {
-    }
-
     return (
         <div className="container-add-resource">
             <h1> Ajouter une ressource </h1>
 
-            <form onSubmit={onSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div>
-                    <label> Intitulé de la resource</label>
-                    <input name="title" type="text" onChange={handleChange} className="form-control">{resourceId?resourceData.title:""}</input>
-                    <label> Description</label>
-                    <input name="description" type="text" onChange={handleChange} className="form-control"></input>
-                    <label> Tags</label>
+                    <label> Title:</label>
+                    <input id="title" name="title" type="text" className="form-control" onChange={handleTitleChange}></input>
+
+                    <label> Description:</label>
+                    <input id="description" name="description" type="text" className="form-control"
+                           onChange={handleDescriptionChange}></input>
+
+                    <label> Tags:</label>
                     <div>
-                        <CheckboxButtonsGroup
-                            setSelectedTags={setSelectedTags}/>
-                    </div>
-                    <div className="container-submit">
-                        <input type="submit" value='Valider' className="btn btn-primary"></input>
-                        <Link to="/home">
-                            <input type="button" value='Annuler' className="btn btn-primary"></input>
-                        </Link>
+                        <div
+                            className={`custom-form-control  ${design}  ${align}  ${length >= 2 ? "first-last" : "no-list"}`}
+                            style={{width: width}}>
+                            {tags &&
+                                tags.map((val, i) => {
+                                    return (
+                                        <div key={val.id} className="checkbox-list">
+                                            <input
+                                                type="checkbox"
+                                                name={val.name}
+                                                id={val.id}
+                                                checked={val.selected}
+                                                onChange={event => handleTagChange(val.name, i)}
+                                            />
+                                            <label htmlFor={val.id}>{val.name}</label>
+                                        </div>
+                                    );
+                                })}
+
+                            <br/>
+                        </div>
+                        <div className="container-submit">
+                            <input type="submit" value='Valider' className="btn btn-primary"></input>
+                            <Link to="/home">
+                                <input type="button" value='Annuler' className="btn btn-primary"></input>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
