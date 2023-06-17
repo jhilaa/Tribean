@@ -52,7 +52,7 @@ public class ResourceController {
     }
 
     //-- UPDATE ----------------------
-    @PutMapping("/resources")
+    @PutMapping("/resources/{resourceId}")
     public ResponseEntity<Object> updateResource(@RequestBody ResourceRequestDto resourceRequestDto) {
         return resourceService.updateResource(resourceRequestDto);
     }
