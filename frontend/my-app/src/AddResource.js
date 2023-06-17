@@ -8,8 +8,8 @@ import "./AddResource.scss";
 
 export function AddResource() {
     const {resourceId} = useParams();
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('*');
+    const [description, setDescription] = useState('*');
     const [tags, setTags] = useState([]);
     const history = useNavigate();
     const {align, design, width, length, icon} = {
@@ -21,23 +21,27 @@ export function AddResource() {
     };
 
     useEffect(() => {
-        axios.get("/tags/all").then(response => {
-            setTags(response.data.map(e => ({...e, selected: false})));
-        }).then(() => {
             if (resourceId) {
-                axios.get("/resources/2").then(response => {
-                    console.log(response);
-                    let titleElement = document.getElementById("title");
-                    let descriptionElement = document.getElementById("description");
-                    titleElement.value = response.data.title;
-                    descriptionElement.value = response.data.description;
-                    response.data.tagResponseDtoList.map((tag, index)=>{handleTagChange(index)});
-                    //setTitle(response.title);
-                    //setDescription(response.description);
-                    //setTags(response.tagResponseDtoList.map(tag => {return tag.id}))
-                })
+                let request = "/resources/"+resourceId
+                axios.get(request) // {id title description liste de TagResponseDto}
+                    .then(response => {
+                        setTitle(response.data.title);
+                        setDescription(response.data.description);
+                        document.getElementById("inputTitle").value = response.data.title;
+                        document.getElementById("inputDescription").value = response.data.description;
+                        let resourceSelectedTagIds = response.data.tagResponseDtoList.map((tag,i) => {return tag.id});
+                        axios.get("/tags/all")
+                            .then(response => {
+                                setTags(response.data.map(tag => ({...tag, selected: resourceSelectedTagIds.indexOf(tag.id)>-1})));
+                            })
+                    })
             }
-        })
+            else {
+                axios.get("/tags/all")
+                    .then(response => {
+                        setTags(response.data.map(tag => ({...tag, selected: false})));
+                    })
+            }
     }, []);
 
     const handleTitleChange = (e) => {
@@ -48,9 +52,12 @@ export function AddResource() {
         setDescription(e.target.value);
     };
 
-    const handleTagChange = (index) => {
+    const handleTagChange = (tagName, index) => {
         //tags[index].selected = !tags[index].selected;
-        let data = tags;
+        let data = [...tags];
+        console.log("handleTagChange ----");
+        console.log(data[index].selected);
+        console.log(data[index].checked);
         data[index].selected = !data[index].selected;
         data[index].checked = !data[index].checked;
         setTags([...data]);
@@ -64,7 +71,7 @@ export function AddResource() {
             "tagIds": tags.filter(tag => tag.selected).map(tag => tag.id)
         };
         if (resourceId) {
-            axios.put("/resources/", {...data})
+            axios.put("/resources/1", {...data})
                 .then(() => history("/home"))
         } else {
             axios.post("/resources/", {...data})
@@ -79,10 +86,11 @@ export function AddResource() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label> Title:</label>
-                    <input id="title" name="title" type="text" className="form-control" onChange={handleTitleChange}></input>
+                    <input id="inputTitle" name="title" type="text" className="form-control"
+                           onChange={handleTitleChange}></input>
 
                     <label> Description:</label>
-                    <input id="description" name="description" type="text" className="form-control"
+                    <input id="inputDescription" name="description" type="text" className="form-control"
                            onChange={handleDescriptionChange}></input>
 
                     <label> Tags:</label>
@@ -119,4 +127,5 @@ export function AddResource() {
             </form>
         </div>
     );
-};
+}
+;
