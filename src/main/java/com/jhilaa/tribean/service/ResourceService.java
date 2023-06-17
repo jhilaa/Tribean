@@ -52,6 +52,7 @@ public class ResourceService {
 
     @Transactional
     public ResponseEntity<Object> updateResource(ResourceRequestDto resourceRequestDto) {
+        System.out.println (resourceRequestDto);
         if (resourceRepository.findById(resourceRequestDto.getId()).isPresent()) {
             Resource resource = resourceRepository.findById(resourceRequestDto.getId()).get();
             resource.setTitle(resourceRequestDto.getTitle());
