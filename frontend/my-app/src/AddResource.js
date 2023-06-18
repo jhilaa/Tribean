@@ -7,10 +7,10 @@ import "./AddResource.scss";
 
 
 export function AddResource() {
-    const {resourceId} = useParams();
-    const [title, setTitle] = useState('*');
-    const [description, setDescription] = useState('*');
-    const [tags, setTags] = useState([]);
+    let resourceId = useParams();
+    let title = "";
+    let description = "";
+    let tags = [];
     const history = useNavigate();
     const {align, design, width, length, icon} = {
         design: "button-style",
@@ -21,52 +21,54 @@ export function AddResource() {
     };
 
     useEffect(() => {
-            if (resourceId) {
-                let request = "/resources/"+resourceId
-                axios.get(request) // {id title description liste de TagResponseDto}
-                    .then(response => {
-                        setTitle(response.data.title);
-                        setDescription(response.data.description);
-                        document.getElementById("inputTitle").value = response.data.title;
-                        document.getElementById("inputDescription").value = response.data.description;
-                        let resourceSelectedTagIds = response.data.tagResponseDtoList.map((tag,i) => {return tag.id});
-                        axios.get("/tags/all")
-                            .then(response => {
-                                setTags(response.data.map(tag => ({...tag, selected: resourceSelectedTagIds.indexOf(tag.id)>-1})));
-                            })
-                    })
-            }
-            else {
-                axios.get("/tags/all")
-                    .then(response => {
-                        setTags(response.data.map(tag => ({...tag, selected: false})));
-                    })
-            }
+        if (resourceId) {
+            let request = "/resources/" + resourceId
+            axios.get(request) // {id title description liste de TagResponseDto}
+                .then(response => {
+                    title = response.data.title;
+                    description = response.data.description;
+                    document.getElementById("inputTitle").value = response.data.title;
+                    document.getElementById("inputDescription").value = response.data.description;
+                    let resourceSelectedTagIds = response.data.tagResponseDtoList.map((tag, i) => {
+                        return tag.id
+                    });
+                    axios.get("/tags/all")
+                        .then(response => {
+                            tags = {
+                                ...(response.data.map(tag => ({
+                                    ...tag,
+                                    selected: resourceSelectedTagIds.indexOf(tag.id) > -1
+                                })))
+                            };
+                        })
+                })
+        } else {
+            axios.get("/tags/all")
+                .then(response => {
+                    tags = [...(response.data.map(tag => ({...tag, selected: false})))];
+                })
+        }
     }, []);
 
     const handleTitleChange = (e) => {
-        setTitle(e.target.value);
+        title = e.target.value;
     };
 
     const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
+        description = e.target.value;
     };
 
     const handleTagChange = (tagName, index) => {
-        //tags[index].selected = !tags[index].selected;
         let data = [...tags];
-        console.log("handleTagChange ----");
-        console.log(data[index].selected);
-        console.log(data[index].checked);
         data[index].selected = !data[index].selected;
         data[index].checked = !data[index].checked;
-        setTags([...data]);
+        tags = ([...data]);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
-            "id" : resourceId,git add
+            "id": resourceId,
             "title": title,
             "description": description,
             "tagIds": tags.filter(tag => tag.selected).map(tag => tag.id)
