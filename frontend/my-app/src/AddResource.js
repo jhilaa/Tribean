@@ -66,6 +66,7 @@ export function AddResource() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
+            "id" : resourceId,git add
             "title": title,
             "description": description,
             "tagIds": tags.filter(tag => tag.selected).map(tag => tag.id)
