@@ -1,0 +1,33 @@
+<!-- popup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            width: 300px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            margin-right: 5px;
+        }
+    </style>
+    <script src="popup.js"></script>
+</head>
+<body>
+    <h1>Extension Popup</h1>
+    <input type="text" id="emailInput" placeholder="Enter user email">
+    <input type="password" id="passwordInput" placeholder="Enter password">
+    <button id="submitCredentials">Submit</button>
+
+    <h1>Extension Popup</h1>
+    <input type="text" id="titleInput" placeholder="Enter title">
+	<input type="text" id="descriptionInput" placeholder="Enter description">
+    <button id="cancelButton">Cancel</button>
+	<button id="submitButton">OK</button>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</html>
