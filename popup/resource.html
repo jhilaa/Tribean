@@ -6,8 +6,20 @@
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-<div>Ressource</div>
+<div id="resourceContainer">
+    <label for="titleInput">Titre :</label>
+    <input type="text" id="titleInput" name="titleInput" required
+           minlength="4" maxlength="32" size="32">
+    <label for="descriptionInput">Name (4 to 8 characters):</label>
+    <textarea id="descriptionInput" name="descriptionInput" required
+              rows="5" cols="33" > </textarea>
+
+    <button id="submitResourceButton">Submit</button>
+    <button id="cancelResourceButton">Cancel</button>
+    <button id="logoutButton">Logout</button>
+</div>
 
 </body>
 <script src="popup.js"></script>
+<script src="resource.js"></script>
 </html>

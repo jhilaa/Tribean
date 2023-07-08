@@ -1,30 +1,14 @@
 let AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 let description = "";
 
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-        const loginContainer = document.getElementById("loginContainer");
-        const loginButton = document.getElementById("loginButton");
         const resourceContainer = document.getElementById("resourceContainer");
-        const submitResourceButton = document.getElementById("submitResourceButton");
-        const logoutButton = document.getElementById("logoutButton");
-        //
         const titleInput = document.getElementById("titleInput");
         const descriptionInput = document.getElementById("descriptionInput");
-
-
-        // gestion des cas où l'utilisateur est connecté ou non
-        if (localStorage.getItem(AUTH_TOKEN_KEY)) {
-            show(resourceContainer);
-            hide(loginContainer)
-            show(logoutButton)
-        } else {
-            hide(resourceContainer);
-            show(loginContainer);
-            hide(logoutButton);
-        }
+        //
+        const submitResourceButton = document.getElementById("submitResourceButton");
+        const cancelResourceButton = document.getElementById("cancelResourceButton");
+        const logoutButton = document.getElementById("logoutButton");
 
         //-- logout
         logoutButton.addEventListener("click", function () {
@@ -32,35 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
             window.close();
         })
 
-        //-- login
-        loginButton.addEventListener("click", function () {
-            const email = document.getElementById("emailInput").value;
-            const password = document.getElementById("passwordInput").value;
-            postData("http://localhost:8080/authenticate",
-                {email: email, password: password},
-                {"Content-Type": "application/json"}
-            ).then(response => {
-                const bearerToken = response?.headers?.authorization;
-                if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-                    const jwt = bearerToken.slice(7, bearerToken.length);
-                    //sessionStorage.setItem(AUTH_TOKEN_KEY, jwt)
-                    localStorage.setItem(AUTH_TOKEN_KEY, jwt) //persistant
-                    hide(loginContainer);
-                    show(resourceContainer);
-                    show(logout);
-                }
-            })
-        });
-
-//-- envoi des données saisies
+        //-- envoi des données saisies
         submitResourceButton.addEventListener("click", function () {
-            const title = document.getElementById("titleInput").value;
-            const description = document.getElementById("descriptionInput").value;
+            const title = titleInput.value;
+            const description = descriptionInput.value;
             postData("http://localhost:8080/resources",
                 {title: title, description: description},
                 {
                     "Content-Type": "application/json",
-                    //'Authorization': `Bearer ${localStorage.getItem(AUTH_TOKEN_KEY)}`
+                    'Authorization': `Bearer ${localStorage.getItem(AUTH_TOKEN_KEY)}`
                     // 'Content-Type': 'application/x-www-form-urlencoded',
                 }).then(response => {
                 console.log("response")
@@ -71,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 )
         })
 
-//-- fermeture de la popup
+        //-- fermeture de la popup
         cancelButton.addEventListener("click", function () {
             window.close();
         })

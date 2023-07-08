@@ -1,7 +1,9 @@
 console.log ("start");
-    document.getElementById("test").addEventListener("click", () => {
-        console.log("test");
-        window.location = "./login.html";});
+if (localStorage.getItem(AUTH_TOKEN_KEY)) {
+    window.location = "./resource.html";
+} else {
+    window.location = "./login.html";
+}
 
 
 
