@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
 
         //-- fermeture de la popup
-        cancelButton.addEventListener("click", function () {
+    cancelResourceButton.addEventListener("click", function () {
             window.close();
         })
 

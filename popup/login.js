@@ -1,4 +1,4 @@
-let AUTH_TOKEN_KEY = 'jhi-authenticationToken';
+const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 
 document.addEventListener("DOMContentLoaded", function () {
         const loginButton = document.getElementById("loginButton");
