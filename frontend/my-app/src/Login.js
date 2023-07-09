@@ -1,11 +1,14 @@
-import React from 'react'
+import React, {useState, useEffect} from "react";
 import logo from './logo.svg';
 import {Link, useNavigate} from "react-router-dom";
 import './login.scss';
 import axios from "axios";
 import {AUTH_TOKEN_KEY} from "./App";
+import SimpleModal from './SimpleModal';
+//import {useState} from "@types/react";
 
 export function Login({setUserConnectedInfoLogin}) {
+    const [showModal, setShowModal] = useState(false);
     const history = useNavigate();
     const onSubmit = ((e) => {
             e.preventDefault();
@@ -23,40 +26,50 @@ export function Login({setUserConnectedInfoLogin}) {
                     setUserConnectedInfoLogin(form.get("email"));
                 }
             }).catch(() => {
-                //To catch
+                setShowModal(true);
             })
 
         }
     )
 
+    const title = "Login incorrect"
+    const bodyTxt = "Login ou mot de passe incorrect"
     return (
-        <div className="login-container">
-            <div>
+        <>
+            <div className="login-container">
                 <div>
-                    <img className="logo-img-m" src={logo} alt="Logo"/>
+                    <div>
+                        <img className="logo-img-m" src={logo} alt="Logo"/>
+                    </div>
+                    <div className="title">
+                        Bienvenue sur Tribean.
+                    </div>
+                    <div className="form-container">
+                        <form onSubmit={onSubmit}>
+                            <span>Mail: </span>
+                            <input type="text" className="form-control" name="email"></input>
+                            <span>Password: </span>
+                            <input type="password" className="form-control" name="password"></input>
+                            <div>
+                                <input type="submit" className="btn btn-primary" value="OK"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="text-center"><Link to="/addUser">M'inscrire</Link></div>
                 </div>
-                <div className="title">
-                    Bienvenue sur Tribean!
-                </div>
-                <div className="form-container">
-                    <form onSubmit={onSubmit}>
-                        <span>Mail: </span>
-                        <input type="text" className="form-control" name="email"></input>
-                        <span>Passsword: </span>
-                        <input type="password" className="form-control" name="password"></input>
-                        <div>
-                            <input type="submit" className="btn btn-primary" value="OK"/>
-                        </div>
-                    </form>
-                </div>
-                <div><Link to="/addUser">M'inscrire</Link></div>
             </div>
-        </div>
+
+            <SimpleModal title={title}
+                         bodyTxt={bodyTxt}
+                         handleCloseModal={() => {setShowModal(false)}}
+                         //showModal={showModal} />
+                         showModal={showModal} />
+        </>
     )
 }
 
 // Wrap and export
 export default function Wrapper(props) {
     const history = useNavigate();
-    return <Login {...props} history={history} />;
+    return <Login {...props} history={history}/>;
 }
