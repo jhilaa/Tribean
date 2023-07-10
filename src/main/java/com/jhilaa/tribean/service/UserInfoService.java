@@ -17,6 +17,8 @@ import com.jhilaa.tribean.jwt.JwtController;
 import com.jhilaa.tribean.jwt.JwtFilter;
 import com.jhilaa.tribean.jwt.JwtUtils;
 import org.springframework.http.HttpHeaders;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Service
 public class UserInfoService {
@@ -42,13 +44,12 @@ public class UserInfoService {
 
             userInfoRepository.save(user);
             //
-            //@TODO ko à analyser
             Authentication authentication = jwtController.logUser(newUserInfo.getEmail(), newUserInfo.getPassword());
             String jwt = jwtUtils.generateToken(authentication);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-            //
-            return new ResponseEntity<>(newUserInfo, httpHeaders, HttpStatus.OK);
+            httpHeaders.add("Set-Cookie","tribeanAuthenticationToken="+jwt+"; Max-Age=604800; Path=/; Secure; HttpOnly");
+            return new ResponseEntity<>(jwt, httpHeaders, HttpStatus.OK);
         }
     }
 }
