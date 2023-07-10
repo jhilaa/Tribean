@@ -6,19 +6,16 @@ import './header.scss'
 import {AUTH_TOKEN_KEY} from "./App";
 
 export function Header({userConnectedInfoLogin, setUserConnectedInfoLogin}) {
-
     const history = useNavigate();
-
     const logout = (e) => {
         setUserConnectedInfoLogin(null)
         sessionStorage.removeItem(AUTH_TOKEN_KEY)
-        //history('/login')
+        history('/login')
     }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-0">
             <div className="container-fluid">
-
                 <button type="button" id="sidebarCollapse" className="btn btn-info mr-3 ml-2">
                     <i className="bi bi-layout-sidebar-inset"></i>
                 </button>

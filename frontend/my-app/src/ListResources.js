@@ -9,11 +9,6 @@ export function ListResources ({listResources}) {
     return(
         <div>
             <h1>Ressources</h1>
-                <div className="background-spinner">
-                    <div className="spinner">
-                        <Spinner animation="grow" variant="light" />
-                    </div>
-                </div>
             <div className="list-container">
                 {listResources.map ((resource) =>
                 <Resource key={resource.id} {...resource} />)}

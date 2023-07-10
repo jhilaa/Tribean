@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import axios from 'axios'
 import {SideBar} from "./SideBar";
 import {useNavigate} from "react-router-dom";
+import './App.scss';
 
 export const AUTH_TOKEN_KEY = 'jhi-authenticationToken'
 
@@ -59,8 +60,15 @@ function App() {
 
   return (
     <div id="page">
+        {loading && (
+            <div className="background-spinner">
+                <div className="spinner">
+                    <Spinner animation="grow" variant="light" />
+                </div>
+            </div>
+        )}
       <Header userConnectedInfoLogin={userConnectedInfoLogin} setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>
-        <div className="App">
+        <div id="content" className="App">
           <Routes>
               <Route path="/" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
               <Route path="login" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
