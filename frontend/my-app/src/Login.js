@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import {Link, useNavigate} from "react-router-dom";
 import './login.scss';
 import axios from "axios";
-import {AUTH_TOKEN_KEY} from "./App";
+import {AUTHORIZATION_HEADER} from "./App";
 import SimpleModal from './SimpleModal';
 //import {useState} from "@types/react";
 
@@ -20,7 +20,7 @@ export function Login({setUserConnectedInfoLogin}) {
                 const bearerToken = response?.headers?.authorization;
                 if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
                     const jwt = bearerToken.slice(7, bearerToken.length);
-                    sessionStorage.setItem(AUTH_TOKEN_KEY, jwt)
+                    sessionStorage.setItem(AUTHORIZATION_HEADER, jwt)
                     // redirection
                     history("/home");
                     setUserConnectedInfoLogin(form.get("email"));

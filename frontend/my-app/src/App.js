@@ -15,7 +15,8 @@ import {SideBar} from "./SideBar";
 import {useNavigate} from "react-router-dom";
 import './App.scss';
 
-export const AUTH_TOKEN_KEY = 'jhi-authenticationToken'
+export const AUTHORIZATION_HEADER = 'Authorization'
+export const AUTHORIZATION_COOKIE = 'Authorization'
 
 const UserConnected = ({ setUserConnectedInfoLogin, userConnectedInfoLogin }) => {
     const history = useNavigate();
@@ -38,7 +39,7 @@ function App() {
     useEffect(() => {
         // intercepteur sur chaque requête
         axios.interceptors.request.use(function (request) {
-          const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
+          const token = sessionStorage.getItem(AUTHORIZATION_HEADER)
             if (token) {
                 request.headers.Authorization = `Bearer ${token}`;
             }

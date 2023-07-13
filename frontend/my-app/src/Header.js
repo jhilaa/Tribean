@@ -3,13 +3,13 @@ import {Link, useNavigate} from "react-router-dom";
 import logo from './logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.scss'
-import {AUTH_TOKEN_KEY} from "./App";
+import {AUTHORIZATION_HEADER} from "./App";
 
 export function Header({userConnectedInfoLogin, setUserConnectedInfoLogin}) {
     const history = useNavigate();
     const logout = (e) => {
         setUserConnectedInfoLogin(null)
-        sessionStorage.removeItem(AUTH_TOKEN_KEY)
+        sessionStorage.removeItem(AUTHORIZATION_HEADER)
         history('/login')
     }
 
