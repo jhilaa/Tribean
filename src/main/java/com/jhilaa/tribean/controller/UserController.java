@@ -8,6 +8,7 @@ import com.jhilaa.tribean.repository.UserInfoRepository;
 import com.jhilaa.tribean.service.UserInfoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -66,4 +68,4 @@ public class UserController {
         UserInfo oneByEmail = userInfoRepository.findOneByEmail(token.getName());
         return oneByEmail.getUserInfoId();
     }
-    }
+}

@@ -57,7 +57,7 @@ public class TagController {
     @DeleteMapping("tags/{id}")
     public ResponseEntity<Object> deleteTag(@PathVariable Long id) {
         return tagService.deleteTag(id);
-        //TODO delete du tag dans les ressources
+        //TODO cascade : delete du tag dans les ressources
     }
 }
 
