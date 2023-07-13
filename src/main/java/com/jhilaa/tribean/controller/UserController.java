@@ -45,25 +45,14 @@ public class UserController {
         return userInfoService.createUser(userInfo);
     }
 
-    //TODO à déplacer dans UserInfoService
     @GetMapping(value = "/userconnectedinfo")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity getUserConnectedInfo() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserInfo userInfo = userInfoRepository.findOneByEmail(((UserDetails) principal).getUsername());
+        UserInfo userInfo = userInfoService.getUserConnectedInfo();
+        if (userInfo == null) {
             return new ResponseEntity(mapper.userInfoToUserInfoResponseDto(userInfo), HttpStatus.OK);
         }
         return new ResponseEntity("User is not connected", HttpStatus.FORBIDDEN);
     }
 
-    //TODO à déplacer dans UserInfoService
-    public Long getUserConnectedId(Principal principal) {
-        if (!(principal instanceof UsernamePasswordAuthenticationToken)) {
-            throw new RuntimeException(("User not found"));
-        }
-        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
-        UserInfo oneByEmail = userInfoRepository.findOneByEmail(token.getName());
-        return oneByEmail.getUserInfoId();
-    }
-    }
+}

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,8 @@ import com.jhilaa.tribean.jwt.JwtUtils;
 import org.springframework.http.HttpHeaders;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.security.Principal;
 
 @Service
 public class UserInfoService {
@@ -51,5 +54,23 @@ public class UserInfoService {
             httpHeaders.add("Set-Cookie","tribeanAuthenticationToken="+jwt+"; Max-Age=604800; Path=/; Secure; HttpOnly");
             return new ResponseEntity<>(jwt, httpHeaders, HttpStatus.OK);
         }
+    }
+
+    public UserInfo getUserConnectedInfo() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserInfo userInfo = userInfoRepository.findOneByEmail(((UserDetails) principal).getUsername());
+            return userInfo;
+        }
+        return null;
+    }
+
+    public Long getUserConnectedId(Principal principal) {
+        if (!(principal instanceof UsernamePasswordAuthenticationToken)) {
+            throw new RuntimeException(("User not found"));
+        }
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
+        UserInfo oneByEmail = userInfoRepository.findOneByEmail(token.getName());
+        return oneByEmail.getUserInfoId();
     }
 }
