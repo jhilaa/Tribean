@@ -19,6 +19,7 @@ import com.jhilaa.tribean.jwt.JwtUtils;
 import org.springframework.http.HttpHeaders;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import static com.jhilaa.tribean.configuration.Constants.*;
 
 @Service
 public class UserInfoService {
@@ -47,8 +48,8 @@ public class UserInfoService {
             Authentication authentication = jwtController.logUser(newUserInfo.getEmail(), newUserInfo.getPassword());
             String jwt = jwtUtils.generateToken(authentication);
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-            httpHeaders.add("Set-Cookie","tribeanAuthenticationToken="+jwt+"; Max-Age=604800; Path=/; Secure; HttpOnly");
+            httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + jwt);
+            httpHeaders.add("Set-Cookie",AUTHORIZATION_COOKIE+"="+jwt+"; Max-Age=604800; Path=/; Secure; HttpOnly");
             return new ResponseEntity<>(jwt, httpHeaders, HttpStatus.OK);
         }
     }

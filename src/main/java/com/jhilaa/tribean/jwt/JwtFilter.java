@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.jhilaa.tribean.configuration.Constants.AUTHORIZATION_HEADER;
+
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -22,8 +24,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     JwtUtils jwtUtils;
-
-    public static final String AUTHORIZATION_HEADER = "Authorization";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -51,6 +51,18 @@ public class JwtFilter extends OncePerRequestFilter {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
+
+            /* avec cookie
+            Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+             */
         }
         return null;
     }
