@@ -7,9 +7,9 @@ import "./AddResource.scss";
 
 
 export function AddResource() {
-    const {resourceId} = useParams();
-    const [title, setTitle] = useState('*');
-    const [description, setDescription] = useState('*');
+    let { resourceId } = useParams();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [tags, setTags] = useState([]);
     const history = useNavigate();
     const {align, design, width, length, icon} = {
@@ -21,58 +21,61 @@ export function AddResource() {
     };
 
     useEffect(() => {
-            if (resourceId) {
-                let request = "/resources/"+resourceId
-                axios.get(request) // {id title description liste de TagResponseDto}
-                    .then(response => {
-                        setTitle(response.data.title);
-                        setDescription(response.data.description);
-                        document.getElementById("inputTitle").value = response.data.title;
-                        document.getElementById("inputDescription").value = response.data.description;
-                        let resourceSelectedTagIds = response.data.tagResponseDtoList.map((tag,i) => {return tag.id});
-                        axios.get("/tags/all")
-                            .then(response => {
-                                setTags(response.data.map(tag => ({...tag, selected: resourceSelectedTagIds.indexOf(tag.id)>-1})));
-                            })
-                    })
-            }
-            else {
-                axios.get("/tags/all")
-                    .then(response => {
-                        setTags(response.data.map(tag => ({...tag, selected: false})));
-                    })
-            }
-    }, []);
+        if (resourceId !== undefined && resourceId !== null) {
+            let request = "/resources/" + resourceId;
+            axios.get(request)
+                .then(response => {
+                    const { title, description, tags } = response.data;
+                    document.getElementById("inputTitle").value = title;
+                    document.getElementById("inputDescription").value = description;
+                    let resourceSelectedTagIds = response.data.tagResponseDtoList.map((tag, i) => {
+                        return tag.id
+                    });
+                    axios.get("/tags/all")
+                        .then(response => {
+                            setTags ({
+                                ...(response.data.map(tag => ({
+                                    ...tag,
+                                    selected: resourceSelectedTagIds.indexOf(tag.id) > -1
+                                })))
+                            });
+                        })
+                })
+        } else {
+            axios.get("/tags/all")
+                .then(response => {
+                    setTags ([...(response.data.map(tag => ({...tag, selected: false})))]);
+                })
+        }
+    }, [resourceId]);
 
     const handleTitleChange = (e) => {
-        setTitle(e.target.value);
+        document.getElementById("inputTitle").value = e.target.value;
+        setTitle(document.getElementById("inputTitle").value);
     };
 
     const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
+        document.getElementById("inputDescription").value = e.target.value;
+        setDescription(document.getElementById("inputDescription").value);
     };
 
     const handleTagChange = (tagName, index) => {
-        //tags[index].selected = !tags[index].selected;
         let data = [...tags];
-        console.log("handleTagChange ----");
-        console.log(data[index].selected);
-        console.log(data[index].checked);
         data[index].selected = !data[index].selected;
         data[index].checked = !data[index].checked;
-        setTags([...data]);
+        setTags ([...data]);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
-            "id" : resourceId,
+            "id": resourceId,
             "title": title,
             "description": description,
             "tagIds": tags.filter(tag => tag.selected).map(tag => tag.id)
         };
         if (resourceId) {
-            axios.put("/resources/1", {...data})
+            axios.put("/resources/"+resourceId, {...data})
                 .then(() => history("/home"))
         } else {
             axios.post("/resources/", {...data})
