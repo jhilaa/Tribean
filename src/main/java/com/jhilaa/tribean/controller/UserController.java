@@ -47,6 +47,11 @@ public class UserController {
         return userInfoService.createUser(userInfo);
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity logout() {
+        return userInfoService.logout();
+    }
+
     //TODO à déplacer dans UserInfoService
     @GetMapping(value = "/userconnectedinfo")
     @SecurityRequirement(name = "bearerAuth")

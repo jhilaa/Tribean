@@ -42,9 +42,14 @@ public class UserInfoService {
             Authentication authentication = jwtController.logUser(newUserInfo.getEmail(), newUserInfo.getPassword());
             String jwt = jwtUtils.generateToken(authentication);
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(BEARER_AUTHORIZATION_HEADER, jwt);
+            //httpHeaders.add(BEARER_AUTHORIZATION_HEADER, jwt);
             httpHeaders.add("Set-Cookie", BEARER_AUTHORIZATION_COOKIE +"="+jwt+"; Max-Age=604800; Path=/; Secure; HttpOnly");
             return new ResponseEntity<>(jwt, httpHeaders, HttpStatus.OK);
         }
+    }
+    public ResponseEntity<Object> logout() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Set-Cookie", BEARER_AUTHORIZATION_COOKIE +"; Max-Age=0; Path=/;");
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 }

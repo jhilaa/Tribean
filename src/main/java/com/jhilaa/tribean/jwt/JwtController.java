@@ -31,7 +31,7 @@ public class JwtController {
         Authentication authentication = logUser(jwtRequest.getEmail(), jwtRequest.getPassword());
         String jwt = jwtUtils.generateToken(authentication);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("BEARER_AUTHORIZATION_HEADER", jwt);
+        //httpHeaders.add("BEARER_AUTHORIZATION_HEADER", jwt);
         httpHeaders.add("Set-Cookie", BEARER_AUTHORIZATION_COOKIE +"="+jwt+"; Max-Age=604800; Path=/; Secure; HttpOnly");
         Object principal = authentication.getPrincipal();
         return new ResponseEntity<>(new JwtResponse(((User) principal).getUsername()), httpHeaders, HttpStatus.OK);

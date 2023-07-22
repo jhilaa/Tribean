@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import static com.jhilaa.tribean.configuration.Constants.BEARER_AUTHORIZATION_COOKIE;
 
-import static com.jhilaa.tribean.configuration.Constants.BEARER_AUTHORIZATION_HEADER;
+//import static com.jhilaa.tribean.configuration.Constants.BEARER_AUTHORIZATION_HEADER;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
