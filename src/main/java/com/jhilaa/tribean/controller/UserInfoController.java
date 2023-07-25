@@ -3,6 +3,7 @@ package com.jhilaa.tribean.controller;
 import com.jhilaa.tribean.dto.Mapper;
 import com.jhilaa.tribean.jwt.JwtController;
 import com.jhilaa.tribean.jwt.JwtUtils;
+import com.jhilaa.tribean.model.Credentials;
 import com.jhilaa.tribean.model.UserInfo;
 import com.jhilaa.tribean.repository.UserInfoRepository;
 import com.jhilaa.tribean.service.UserInfoService;
@@ -43,6 +44,11 @@ public class UserInfoController {
     @PostMapping("/user")
     public ResponseEntity addNewUser(@RequestBody UserInfo userInfo) {
         return userInfoService.createUser(userInfo);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity login(@RequestBody String email, String password) {
+        return userInfoService.login(new Credentials(email, password));
     }
 
     @GetMapping("/logout")
