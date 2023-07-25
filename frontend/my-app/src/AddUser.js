@@ -3,29 +3,33 @@ import {Link, useNavigate} from "react-router-dom";
 import {useState, useEffect} from 'react'
 import './AddUser.scss'
 import axios from "axios";
+import { login } from "./login"
 import { AUTHORIZATION_HEADER } from "./App";
+
 
 export function AddUser ({setUserConnectedInfoLogin}) {
     const history = useNavigate();
-
     const onSubmit = ((e) => {
         e.preventDefault();
         const form = new FormData(e.target);
+        let email = form.get("email");
+        let password = form.get("password");
+        let lastname = form.get("lastname");
+        let firstname = form.get("firstname");
         axios.post('/user', {
             "userInfoId": 0,
-            "lastname": form.get("lastname"),
-            "firstname": form.get("firstname"),
-            "email": form.get("email"),
-            "password": form.get("password")
+            "lastname": lastname,
+            "firstname": firstname,
+            "email": email,
+            "password": password
         }).then(response => {
             const bearerToken = response?.headers?.authorization;
             if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
                 const jwt = bearerToken.slice(7, bearerToken.length);
                 sessionStorage.setItem(AUTHORIZATION_HEADER, jwt)
-
             }
+            login(email, password);
             setUserConnectedInfoLogin(form.get("email"));
-            // redirection
             history("/home");
         })
     })

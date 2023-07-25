@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router';
 import { ListResources } from './ListResources';
 import { AddResource  } from './AddResource';
 import { AddUser } from './AddUser';
-import { Login } from './Login';
+import { LoginForm } from './LoginForm';
 import { Home } from './Home';
 import { Header } from './Header';
 import { useEffect } from 'react'
@@ -71,13 +71,13 @@ function App() {
       <Header userConnectedInfoLogin={userConnectedInfoLogin} setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>
         <div id="content" className="App">
           <Routes>
-              <Route path="/" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
-              <Route path="login" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
+              <Route path="/" element={<LoginForm setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
+              <Route path="login" element={<LoginForm setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
               <Route path="home" element ={<Home />} />
               <Route path="addResource" element={<AddResource />} />
               <Route path="addResource/:resourceId" element={<AddResource />} />
               <Route path="addUser" element={<AddUser setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
-              <Route path="*" element={<Login setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
+              <Route path="*" element={<LoginForm setUserConnectedInfoLogin={setUserConnectedInfoLogin}/>} />
           </Routes>
       </div>
   </div>
