@@ -46,10 +46,6 @@ public class UserInfoController {
         return userInfoService.createUser(userInfo);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity login(@RequestBody String email, String password) {
-        return userInfoService.login(new Credentials(email, password));
-    }
 
     @GetMapping("/logout")
     public ResponseEntity logout() {
@@ -68,13 +64,5 @@ public class UserInfoController {
         return new ResponseEntity("User is not connected", HttpStatus.FORBIDDEN);
     }
 
-    //TODO à déplacer dans UserInfoService
-    public Long getUserConnectedId(Principal principal) {
-        if (!(principal instanceof UsernamePasswordAuthenticationToken)) {
-            throw new RuntimeException(("User not found"));
-        }
-        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
-        UserInfo oneByEmail = userInfoRepository.findOneByEmail(token.getName());
-        return oneByEmail.getUserInfoId();
-    }
+
 }

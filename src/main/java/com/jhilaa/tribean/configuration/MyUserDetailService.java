@@ -21,9 +21,9 @@ public class MyUserDetailService implements UserDetailsService {
     UserInfoRepository userInfoRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        // récupérer de la base le user correspondant au login
-        UserInfo user = userInfoRepository.findOneByEmail(login);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        // récupérer de la base le user correspondant à l'email
+        UserInfo user = userInfoRepository.findOneByEmail(email);
 
         final List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

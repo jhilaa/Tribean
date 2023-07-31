@@ -7,12 +7,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 import com.jhilaa.tribean.jwt.JwtController;
 import com.jhilaa.tribean.jwt.JwtUtils;
 import org.springframework.http.HttpHeaders;
+
+import java.security.Principal;
 
 import static com.jhilaa.tribean.configuration.Constants.*;
 
@@ -44,25 +47,24 @@ public class UserInfoService {
                 return new ResponseEntity("Données utilisateur non enregistrées", HttpStatus.BAD_REQUEST);
             }
             else {
-                ResponseEntity<Object> response = login(new Credentials(newUserInfo.getEmail(), newUserInfo.getPassword()));
-                return response;
+                return new ResponseEntity("Données utilisateur enregistrées avec succès", HttpStatus.BAD_REQUEST);
             }
         }
 
     }
 
-    public ResponseEntity<Object> login(Credentials credentials) {
-        Authentication authentication = jwtController.logUser(credentials);
-        String jwt = jwtUtils.generateToken(authentication);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Set-Cookie", BEARER_AUTHORIZATION_COOKIE + "=" + jwt + "; Max-Age=604800; Path=/; Secure; HttpOnly");
-        return new ResponseEntity<>(jwt, httpHeaders, HttpStatus.OK);
-    }
-
-
     public ResponseEntity<Object> logout() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Set-Cookie", BEARER_AUTHORIZATION_COOKIE + "; Max-Age=0; Path=/;");
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public Long getUserConnectedId(Principal principal) {
+        if (!(principal instanceof UsernamePasswordAuthenticationToken)) {
+            throw new RuntimeException(("User not found"));
+        }
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) principal;
+        UserInfo oneByEmail = userInfoRepository.findOneByEmail(token.getName());
+        return oneByEmail.getUserInfoId();
     }
 }
